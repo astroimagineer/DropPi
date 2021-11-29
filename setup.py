@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='Droppi2',
-    version='1.0',
+    version='1.05',
     packages=[''],
     url='',
     license='',
