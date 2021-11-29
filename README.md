@@ -43,5 +43,5 @@ I will update and expand this readme over time.
 
 ## Screenshots
 
-![](Screenshot from 2021-11-29 18-55-19.png)
-![](Screenshot from 2021-11-29 18-55-38.png)
+![](Screenshot18-55-19.png)
+![](Screenshot18-55-38.png)
