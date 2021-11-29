@@ -39,5 +39,9 @@ As far as hardware goes, I am using the following components. I suggest you do t
 The first relay HAT will control the four valves in order (relay 1 - valve 1, etc.).
 The second relay HAT will control the camera and flashes (camera, flash1, flash2, flash3).
 
-I will update and expand this readme over time. 
+I will update and expand this readme over time.
 
+## Screenshots
+
+![](C:\Users\conta\PycharmProjects\Droppi2\Screenshot from 2021-11-29 18-55-19.png)
+![](C:\Users\conta\PycharmProjects\Droppi2\Screenshot from 2021-11-29 18-55-38.png)c
