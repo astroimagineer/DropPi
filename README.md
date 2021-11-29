@@ -34,9 +34,10 @@ As far as hardware goes, I am using the following components. I suggest you do t
 - [Seeed Relay HAT](https://wiki.seeedstudio.com/Raspberry_Pi_Relay_Board_v1.0/) (you need 2 of them)
 - A power supply for your Raspberry. Make sure it can provide 5A, otherwise you'll run into issues!
 
-**_IMPORTANT:_** Set the addresses of the relay HATs to 20 and 21. I use these hardcoded in the software.
+**_IMPORTANT:_** Set the I2C addresses of the relay HATs to 20 and 21. I use these hardcoded in the software. Refer to the user manual for the relay HATs on how to set these addresses.
 
 The first relay HAT will control the four valves in order (relay 1 - valve 1, etc.).
 The second relay HAT will control the camera and flashes (camera, flash1, flash2, flash3).
 
+I will update and expand this readme over time. 
 
