@@ -43,5 +43,5 @@ I will update and expand this readme over time.
 
 ## Screenshots
 
-![](C:\Users\conta\PycharmProjects\Droppi2\Screenshot from 2021-11-29 18-55-19.png)
-![](C:\Users\conta\PycharmProjects\Droppi2\Screenshot from 2021-11-29 18-55-38.png)c
+![](Screenshot from 2021-11-29 18-55-19.png)
+![](Screenshot from 2021-11-29 18-55-38.png)
