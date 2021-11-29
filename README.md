@@ -31,9 +31,12 @@ As far as hardware goes, I am using the following components. I suggest you do t
 
 - [Raspberry Pi4](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/). Get as much memory as you can, it always helps
 - [Raspberry Pi Touch Display](https://www.raspberrypi.com/products/raspberry-pi-touch-display/)
-- [Seeed Relay HAT](https://wiki.seeedstudio.com/Raspberry_Pi_Relay_Board_v1.0/) (2 of them)
+- [Seeed Relay HAT](https://wiki.seeedstudio.com/Raspberry_Pi_Relay_Board_v1.0/) (you need 2 of them)
 - A power supply for your Raspberry. Make sure it can provide 5A, otherwise you'll run into issues!
 
-Set the addresses of the relay HATs to 20 and 21. I use these hardcoded in the software.
+**_IMPORTANT:_** Set the addresses of the relay HATs to 20 and 21. I use these hardcoded in the software.
+
+The first relay HAT will control the four valves in order (relay 1 - valve 1, etc.).
+The second relay HAT will control the camera and flashes (camera, flash1, flash2, flash3).
 
 
