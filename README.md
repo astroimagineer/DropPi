@@ -43,5 +43,5 @@ I will update and expand this readme over time.
 
 ## Screenshots
 
-![](Screenshot18-55-19.png)
-![](Screenshot18-55-38.png)
+![](Screenshot1.png)
+![](Screenshot2.png)
