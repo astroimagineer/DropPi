@@ -1,3 +1,4 @@
+![](droppi-logo-for-github.png)
 # DropPi v.1.05 #
 
 DropPi is my own implementation of a python high-speed droplet photography controller for the Raspberry Pi4.
