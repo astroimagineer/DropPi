@@ -12,6 +12,7 @@ DropPi in its current version implements the following features:
 - Uses standard hardware (minimal soldering)
 - Fully supports the Raspberry 7" touch screen
 - Input via touch screen and on-screen keyboard
+- Long-press on all decrease and increase buttons for slow and fast modes
 - Save and load all your droplet configurations for later use
 
 ## History ##

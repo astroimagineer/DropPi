@@ -17,7 +17,7 @@
     pos_hint: {'right': 1}
     #pos_hint: {'top': 1}
 
-<MinButton@Button>:
+<MinButton@LongpressButton>:
     id: minbutton
     text: '-'
     size: 30, 30
@@ -25,8 +25,9 @@
     color: .6,.6,1,1
     background_color: (38/255, 74/255, 180/255, 1)
     font_size: 32
+    long_press_time: 0.5
 
-<PlusButton@Button>:
+<PlusButton@LongpressButton>:
     id: plusbutton
     text: '+'
     size: 30, 30
@@ -34,8 +35,18 @@
     color: .6,.6,1,1
     background_color: (38/255, 74/255, 180/255, 1)
     font_size: 32
+    long_press_time: 0.5
 
 <ValveToggleButton@Button>:
+    id: plusbutton
+    text: '+'
+    size: 30, 30
+    size_hint: None, None
+    color: .1,.1,.8,1
+    background_color: (38/255, 74/255, 180/255, 1)
+    font_size: 26
+
+<LValveToggleButton@LongpressButton>:
     id: plusbutton
     text: '+'
     size: 30, 30
@@ -163,13 +174,15 @@
                     orientation: 'horizontal'
                     MinButton:
                         id: v1d1on_min
-                        on_press: root.press_v1d1on_min()
+                        on_press: root.press_v1d1on_min(False)
+                        on_long_press: root.press_v1d1on_min(True)
                     OnTextInput:
                         id: v1d1on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v1d1on_plus
-                        on_press: root.press_v1d1on_plus()
+                        on_press: root.press_v1d1on_plus(False)
+                        on_long_press: root.press_v1d1on_plus(True)
                 # Valve 1, drop 2 stuff
                 BoxLayout:
                     id: v1d2on
@@ -178,13 +191,15 @@
                     disabled: True
                     MinButton:
                         id: v1d2on_min
-                        on_press: root.press_v1d2on_min()
+                        on_press: root.press_v1d2on_min(False)
+                        on_long_press: root.press_v1d2on_min(True)
                     OnTextInput:
                         id: v1d2on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v1d2on_plus
-                        on_press: root.press_v1d2on_plus()
+                        on_press: root.press_v1d2on_plus(False)
+                        on_long_press: root.press_v1d2on_plus(True)
                 # Valve 1, drop 3 stuff
                 BoxLayout:
                     id: v1d3on
@@ -193,13 +208,15 @@
                     disabled: True
                     MinButton:
                         id: v1d3on_min
-                        on_press: root.press_v1d3on_min()
+                        on_press: root.press_v1d3on_min(False)
+                        on_long_press: root.press_v1d3on_min(True)
                     OnTextInput:
                         id: v1d3on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v1d3on_plus
-                        on_press: root.press_v1d3on_plus()
+                        on_press: root.press_v1d3on_plus(False)
+                        on_long_press: root.press_v1d3on_plus(True)
                 # Valve 1, drop 4 stuff
                 BoxLayout:
                     id: v1d4on
@@ -208,13 +225,15 @@
                     disabled: True
                     MinButton:
                         id: v1d4on_min
-                        on_press: root.press_v1d4on_min()
+                        on_press: root.press_v1d4on_min(False)
+                        on_long_press: root.press_v1d4on_min(True)
                     OnTextInput:
                         id: v1d4on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v1d4on_plus
-                        on_press: root.press_v1d4on_plus()
+                        on_press: root.press_v1d4on_plus(False)
+                        on_long_press: root.press_v1d4on_plus(True)
                 BoxLayout:
                     id: v1toggles
                     orientation: 'horizontal'
@@ -264,13 +283,15 @@
                     orientation: 'horizontal'
                     MinButton:
                         id: v1d1off_min
-                        on_press: root.press_v1d1off_min()
+                        on_press: root.press_v1d1off_min(False)
+                        on_long_press: root.press_v1d1off_min(True)
                     OffTextInput:
                         id: v1d1off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v1d1off_plus
-                        on_press: root.press_v1d1off_plus()
+                        on_press: root.press_v1d1off_plus(False)
+                        on_long_press: root.press_v1d1off_plus(True)
                 # Valve 1, drop 2 stuff
                 BoxLayout:
                     id: v1d2off
@@ -279,13 +300,15 @@
                     disabled: True
                     MinButton:
                         id: v1d2off_min
-                        on_press: root.press_v1d2off_min()
+                        on_press: root.press_v1d2off_min(False)
+                        on_long_press: root.press_v1d2off_min(True)
                     OffTextInput:
                         id: v1d2off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v1d2off_plus
-                        on_press: root.press_v1d2off_plus()
+                        on_press: root.press_v1d2off_plus(False)
+                        on_long_press: root.press_v1d2off_plus(True)
                 # Valve 1, drop 3 stuff
                 BoxLayout:
                     id: v1d3off
@@ -294,13 +317,15 @@
                     disabled: True
                     MinButton:
                         id: v1d3off_min
-                        on_press: root.press_v1d3off_min()
+                        on_press: root.press_v1d3off_min(False)
+                        on_long_press: root.press_v1d3off_min(True)
                     OffTextInput:
                         id: v1d3off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v1d3off_plus
-                        on_press: root.press_v1d3off_plus()
+                        on_press: root.press_v1d3off_plus(False)
+                        on_long_press: root.press_v1d3off_plus(True)
                 # Valve 1, drop 4 stuff
                 BoxLayout:
                     id: v1d4off
@@ -309,13 +334,15 @@
                     disabled: True
                     MinButton:
                         id: v1d4off_min
-                        on_press: root.press_v1d4off_min()
+                        on_press: root.press_v1d4off_min(False)
+                        on_long_press: root.press_v1d4off_min(True)
                     OffTextInput:
                         id: v1d4off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v1d4off_plus
-                        on_press: root.press_v1d4off_plus()
+                        on_press: root.press_v1d4off_plus(False)
+                        on_long_press: root.press_v1d4off_plus(True)
                 BoxLayout:
                     id: v1toggle
                     orientation: 'horizontal'
@@ -364,13 +391,15 @@
                     disabled: True
                     MinButton:
                         id: v2d1on_min
-                        on_press: root.press_v2d1on_min()
+                        on_press: root.press_v2d1on_min(False)
+                        on_long_press: root.press_v2d1on_min(True)
                     OnTextInput:
                         id: v2d1on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v2d1on_plus
-                        on_press: root.press_v2d1on_plus()
+                        on_press: root.press_v2d1on_plus(False)
+                        on_long_press: root.press_v2d1on_plus(True)
                 # Valve 2, drop 2 stuff
                 BoxLayout:
                     id: v2d2on
@@ -379,13 +408,15 @@
                     disabled: True
                     MinButton:
                         id: v2d2on_min
-                        on_press: root.press_v2d2on_min()
+                        on_press: root.press_v2d2on_min(False)
+                        on_long_press: root.press_v2d2on_min(True)
                     OnTextInput:
                         id: v2d2on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v2d2on_plus
-                        on_press: root.press_v2d2on_plus()
+                        on_press: root.press_v2d2on_plus(False)
+                        on_long_press: root.press_v2d2on_plus(True)
                 # Valve 2, drop 3 stuff
                 BoxLayout:
                     id: v2d3on
@@ -394,13 +425,15 @@
                     disabled: True
                     MinButton:
                         id: v2d3on_min
-                        on_press: root.press_v2d3on_min()
+                        on_press: root.press_v2d3on_min(False)
+                        on_long_press: root.press_v2d3on_min(True)
                     OnTextInput:
                         id: v2d3on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v2d3on_plus
-                        on_press: root.press_v2d3on_plus()
+                        on_press: root.press_v2d3on_plus(False)
+                        on_long_press: root.press_v2d3on_plus(True)
                 # Valve 2, drop 4 stuff
                 BoxLayout:
                     id: v2d4on
@@ -409,13 +442,15 @@
                     disabled: True
                     MinButton:
                         id: v2d4on_min
-                        on_press: root.press_v2d4on_min()
+                        on_press: root.press_v2d4on_min(False)
+                        on_long_press: root.press_v2d4on_min(True)
                     OnTextInput:
                         id: v2d4on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v2d4on_plus
-                        on_press: root.press_v2d4on_plus()
+                        on_press: root.press_v2d4on_plus(False)
+                        on_long_press: root.press_v2d4on_plus(True)
                 BoxLayout:
                     id: v2spacer
                     orientation: 'horizontal'
@@ -468,13 +503,15 @@
                     disabled: True
                     MinButton:
                         id: v2d1off_min
-                        on_press: root.press_v2d1off_min()
+                        on_press: root.press_v2d1off_min(False)
+                        on_long_press: root.press_v2d1off_min(True)
                     OffTextInput:
                         id: v2d1off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v2d1off_plus
-                        on_press: root.press_v2d1off_plus()
+                        on_press: root.press_v2d1off_plus(False)
+                        on_long_press: root.press_v2d1off_plus(True)
                 # Valve 2, drop 2 stuff
                 BoxLayout:
                     id: v2d2off
@@ -483,13 +520,15 @@
                     disabled: True
                     MinButton:
                         id: v2d2off_min
-                        on_press: root.press_v2d2off_min()
+                        on_press: root.press_v2d2off_min(False)
+                        on_long_press: root.press_v2d2off_min(True)
                     OffTextInput:
                         id: v2d2off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v2d2off_plus
-                        on_press: root.press_v2d2off_plus()
+                        on_press: root.press_v2d2off_plus(False)
+                        on_long_press: root.press_v2d2off_plus(True)
                 # Valve 2, drop 3 stuff
                 BoxLayout:
                     id: v2d3off
@@ -498,13 +537,15 @@
                     disabled: True
                     MinButton:
                         id: v2d3off_min
-                        on_press: root.press_v2d3off_min()
+                        on_press: root.press_v2d3off_min(False)
+                        on_long_press: root.press_v2d3off_min(True)
                     OffTextInput:
                         id: v2d3off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v2d3off_plus
-                        on_press: root.press_v2d3off_plus()
+                        on_press: root.press_v2d3off_plus(False)
+                        on_long_press: root.press_v2d3off_plus(True)
                 # Valve 2, drop 4 stuff
                 BoxLayout:
                     id: v2d4off
@@ -513,13 +554,15 @@
                     disabled: True
                     MinButton:
                         id: v2d4off_min
-                        on_press: root.press_v2d4off_min()
+                        on_press: root.press_v2d4off_min(False)
+                        on_long_press: root.press_v2d4off_min(True)
                     OffTextInput:
                         id: v2d4off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v2d4off_plus
-                        on_press: root.press_v2d4off_plus()
+                        on_press: root.press_v2d4off_plus(False)
+                        on_long_press: root.press_v2d4off_plus(True)
                 BoxLayout:
                     id: v2toggle
                     orientation: 'horizontal'
@@ -568,13 +611,15 @@
                     disabled: True
                     MinButton:
                         id: v3d1on_min
-                        on_press: root.press_v3d1on_min()
+                        on_press: root.press_v3d1on_min(False)
+                        on_long_press: root.press_v3d1on_min(True)
                     OnTextInput:
                         id: v3d1on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v3d1on_plus
-                        on_press: root.press_v3d1on_plus()
+                        on_press: root.press_v3d1on_plus(False)
+                        on_long_press: root.press_v3d1on_plus(True)
                 # Valve 3, drop 2 stuff
                 BoxLayout:
                     id: v3d2on
@@ -583,13 +628,15 @@
                     disabled: True
                     MinButton:
                         id: v3d2on_min
-                        on_press: root.press_v3d2on_min()
+                        on_press: root.press_v3d2on_min(False)
+                        on_long_press: root.press_v3d2on_min(True)
                     OnTextInput:
                         id: v3d2on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v3d2on_plus
-                        on_press: root.press_v3d2on_plus()
+                        on_press: root.press_v3d2on_plus(False)
+                        on_long_press: root.press_v3d2on_plus(True)
                 # Valve 3, drop 3 stuff
                 BoxLayout:
                     id: v3d3on
@@ -598,13 +645,15 @@
                     disabled: True
                     MinButton:
                         id: v3d3on_min
-                        on_press: root.press_v3d3on_min()
+                        on_press: root.press_v3d3on_min(False)
+                        on_long_press: root.press_v3d3on_min(True)
                     OnTextInput:
                         id: v3d3on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v3d3on_plus
-                        on_press: root.press_v3d3on_plus()
+                        on_press: root.press_v3d3on_plus(False)
+                        on_long_press: root.press_v3d3on_plus(True)
                 # Valve 3, drop 4 stuff
                 BoxLayout:
                     id: v3d4on
@@ -613,13 +662,15 @@
                     disabled: True
                     MinButton:
                         id: v3d4on_min
-                        on_press: root.press_v3d4on_min()
+                        on_press: root.press_v3d4on_min(False)
+                        on_long_press: root.press_v3d4on_min(True)
                     OnTextInput:
                         id: v3d4on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v3d4on_plus
-                        on_press: root.press_v3d4on_plus()
+                        on_press: root.press_v3d4on_plus(False)
+                        on_long_press: root.press_v3d4on_plus(True)
                 BoxLayout:
                     id: v3spacer
                     orientation: 'horizontal'
@@ -672,13 +723,15 @@
                     disabled: True
                     MinButton:
                         id: v3d1off_min
-                        on_press: root.press_v3d1off_min()
+                        on_press: root.press_v3d1off_min(False)
+                        on_long_press: root.press_v3d1off_min(True)
                     OffTextInput:
                         id: v3d1off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v3d1off_plus
-                        on_press: root.press_v3d1off_plus()
+                        on_press: root.press_v3d1off_plus(False)
+                        on_long_press: root.press_v3d1off_plus(True)
                 # Valve 3, drop 2 stuff
                 BoxLayout:
                     id: v3d2off
@@ -687,13 +740,15 @@
                     disabled: True
                     MinButton:
                         id: v3d2off_min
-                        on_press: root.press_v3d2off_min()
+                        on_press: root.press_v3d2off_min(False)
+                        on_long_press: root.press_v3d2off_min(True)
                     OffTextInput:
                         id: v3d2off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v3d2off_plus
-                        on_press: root.press_v3d2off_plus()
+                        on_press: root.press_v3d2off_plus(False)
+                        on_long_press: root.press_v3d2off_plus(True)
                 # Valve 3, drop 3 stuff
                 BoxLayout:
                     id: v3d3off
@@ -702,13 +757,15 @@
                     disabled: True
                     MinButton:
                         id: v3d3off_min
-                        on_press: root.press_v3d3off_min()
+                        on_press: root.press_v3d3off_min(False)
+                        on_long_press: root.press_v3d3off_min(True)
                     OffTextInput:
                         id: v3d3off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v3d3off_plus
-                        on_press: root.press_v3d3off_plus()
+                        on_press: root.press_v3d3off_plus(False)
+                        on_long_press: root.press_v3d3off_plus(True)
                 # Valve 3, drop 4 stuff
                 BoxLayout:
                     id: v3d4off
@@ -717,13 +774,15 @@
                     disabled: True
                     MinButton:
                         id: v3d4off_min
-                        on_press: root.press_v3d4off_min()
+                        on_press: root.press_v3d4off_min(False)
+                        on_long_press: root.press_v3d4off_min(True)
                     OffTextInput:
                         id: v3d4off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v3d4off_plus
-                        on_press: root.press_v3d4off_plus()
+                        on_press: root.press_v3d4off_plus(False)
+                        on_long_press: root.press_v3d4off_plus(True)
                 BoxLayout:
                     id: v3toggle
                     orientation: 'horizontal'
@@ -772,13 +831,15 @@
                     disabled: True
                     MinButton:
                         id: v4d1on_min
-                        on_press: root.press_v4d1on_min()
+                        on_press: root.press_v4d1on_min(False)
+                        on_long_press: root.press_v4d1on_min(True)
                     OnTextInput:
                         id: v4d1on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v4d1on_plus
-                        on_press: root.press_v4d1on_plus()
+                        on_press: root.press_v4d1on_plus(False)
+                        on_long_press: root.press_v4d1on_plus(True)
                 # Valve 4, drop 2 stuff
                 BoxLayout:
                     id: v4d2on
@@ -787,13 +848,15 @@
                     disabled: True
                     MinButton:
                         id: v4d2on_min
-                        on_press: root.press_v4d2on_min()
+                        on_press: root.press_v4d2on_min(False)
+                        on_long_press: root.press_v4d2on_min(True)
                     OnTextInput:
                         id: v4d2on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v4d2on_plus
-                        on_press: root.press_v4d2on_plus()
+                        on_press: root.press_v4d2on_plus(False)
+                        on_long_press: root.press_v4d2on_plus(True)
                 # Valve 4, drop 3 stuff
                 BoxLayout:
                     id: v4d3on
@@ -802,13 +865,15 @@
                     disabled: True
                     MinButton:
                         id: v4d3on_min
-                        on_press: root.press_v4d3on_min()
+                        on_press: root.press_v4d3on_min(False)
+                        on_long_press: root.press_v4d3on_min(True)
                     OnTextInput:
                         id: v4d3on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v4d3on_plus
-                        on_press: root.press_v4d3on_plus()
+                        on_press: root.press_v4d3on_plus(False)
+                        on_long_press: root.press_v4d3on_plus(True)
                 # Valve 4, drop 4 stuff
                 BoxLayout:
                     id: v4d4on
@@ -817,13 +882,15 @@
                     disabled: True
                     MinButton:
                         id: v4d4on_min
-                        on_press: root.press_v4d4on_min()
+                        on_press: root.press_v4d4on_min(False)
+                        on_long_press: root.press_v4d4on_min(True)
                     OnTextInput:
                         id: v4d4on_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v4d4on_plus
-                        on_press: root.press_v4d4on_plus()
+                        on_press: root.press_v4d4on_plus(False)
+                        on_long_press: root.press_v4d4on_plus(True)
                 BoxLayout:
                     id: v4spacer
                     orientation: 'horizontal'
@@ -876,13 +943,15 @@
                     disabled: True
                     MinButton:
                         id: v4d1off_min
-                        on_press: root.press_v4d1off_min()
+                        on_press: root.press_v4d1off_min(False)
+                        on_long_press: root.press_v4d1off_min(True)
                     OffTextInput:
                         id: v4d1off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v4d1off_plus
-                        on_press: root.press_v4d1off_plus()
+                        on_press: root.press_v4d1off_plus(False)
+                        on_long_press: root.press_v4d1off_plus(True)
                 # Valve 4, drop 2 stuff
                 BoxLayout:
                     id: v4d2off
@@ -891,13 +960,15 @@
                     disabled: True
                     MinButton:
                         id: v4d2off_min
-                        on_press: root.press_v4d2off_min()
+                        on_press: root.press_v4d2off_min(False)
+                        on_long_press: root.press_v4d2off_min(True)
                     OffTextInput:
                         id: v4d2off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v4d2off_plus
-                        on_press: root.press_v4d2off_plus()
+                        on_press: root.press_v4d2off_plus(False)
+                        on_long_press: root.press_v4d2off_plus(True)
                 # Valve 4, drop 3 stuff
                 BoxLayout:
                     id: v4d3off
@@ -906,13 +977,15 @@
                     disabled: True
                     MinButton:
                         id: v4d3off_min
-                        on_press: root.press_v4d3off_min()
+                        on_press: root.press_v4d3off_min(False)
+                        on_long_press: root.press_v4d3off_min(True)
                     OffTextInput:
                         id: v4d3off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v4d3off_plus
-                        on_press: root.press_v4d3off_plus()
+                        on_press: root.press_v4d3off_plus(False)
+                        on_long_press: root.press_v4d3off_plus(True)
                 # Valve 4, drop 4 stuff
                 BoxLayout:
                     id: v4d4off
@@ -921,13 +994,15 @@
                     disabled: True
                     MinButton:
                         id: v4d4off_min
-                        on_press: root.press_v4d4off_min()
+                        on_press: root.press_v4d4off_min(False)
+                        on_long_press: root.press_v4d4off_min(True)
                     OffTextInput:
                         id: v4d4off_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: v4d4off_plus
-                        on_press: root.press_v4d4off_plus()
+                        on_press: root.press_v4d4off_plus(False)
+                        on_long_press: root.press_v4d4off_plus(True)
                 BoxLayout:
                     id: v4toggle
                     orientation: 'horizontal'
@@ -964,14 +1039,16 @@
                     width: 110
                     MinButton:
                         id: camon_min
-                        on_press: root.press_camon_min()
+                        on_press: root.press_camon_min(False)
+                        on_long_press: root.press_camon_min(True)
                     OnTextInput:
                         id: camon_val
                         text: '100'
                         on_focus: root.text_focused()
                     PlusButton:
                         id: camon_plus
-                        on_press: root.press_camon_plus()
+                        on_press: root.press_camon_plus(False)
+                        on_long_press: root.press_camon_plus(True)
                 NoColorWidget:
                     width: 30
                 # Camera stuff
@@ -986,14 +1063,16 @@
                     orientation: 'horizontal'
                     MinButton:
                         id: camoff_min
-                        on_press: root.press_camoff_min()
+                        on_press: root.press_camoff_min(False)
+                        on_long_press: root.press_camoff_min(True)
                     OffTextInput:
                         id: camoff_val
                         text: '1200'
                         on_focus: root.text_focused()
                     PlusButton:
                         id: camoff_plus
-                        on_press: root.press_camoff_plus()
+                        on_press: root.press_camoff_plus(False)
+                        on_long_press: root.press_camoff_plus(True)
                     BoxLayout:
                         id: mirrorlockup
                         orientation: 'horizontal'
@@ -1038,14 +1117,16 @@
                     width: 110
                     MinButton:
                         id: flashon_min
-                        on_press: root.press_flashon_min()
+                        on_press: root.press_flashon_min(False)
+                        on_long_press: root.press_flashon_min(True)
                     OnTextInput:
                         id: flashon_val
                         text: '300'
                         on_focus: root.text_focused()
                     PlusButton:
                         id: flashon_plus
-                        on_press: root.press_flashon_plus()
+                        on_press: root.press_flashon_plus(False)
+                        on_long_press: root.press_flashon_plus(True)
 
                 NoColorWidget:
                     width: 30
@@ -1061,13 +1142,15 @@
                     orientation: 'horizontal'
                     MinButton:
                         id: flashoff_min
-                        on_press: root.press_flashoff_min()
+                        on_press: root.press_flashoff_min(False)
+                        on_long_press: root.press_flashoff_min(True)
                     OffTextInput:
                         id: flashoff_val
                         on_focus: root.text_focused()
                     PlusButton:
                         id: flashoff_plus
-                        on_press: root.press_flashoff_plus()
+                        on_press: root.press_flashoff_plus(False)
+                        on_long_press: root.press_flashoff_plus(True)
                 Widget:
                 DropToggleButton:
                     id: f1toggle
