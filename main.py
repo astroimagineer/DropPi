@@ -21,6 +21,8 @@ import pkg_resources  # part of setuptools
 
 kivy.require('1.9.0')
 
+version = '1.05'
+
 root_folder = ''
 
 template_file = ''
@@ -47,7 +49,7 @@ class LoadingScreen(Screen):
     pass
 
 class MainScreen(Screen):
-    version = pkg_resources.require("Droppi")[0].version
+    global version
     droppiversion = f'DropPi v.{version} - A droplet photography controller'
 
     def text_focused(self):
