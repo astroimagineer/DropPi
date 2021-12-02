@@ -6,6 +6,7 @@ from kivy.base import runTouchApp
 from kivy.clock import Clock
 from kivy.factory import Factory
 from kivy.core.window import Window
+from kivy.uix.image import Image
 from kivy.uix.screenmanager import (ScreenManager, Screen, NoTransition, SlideTransition, CardTransition,
                                     SwapTransition, FadeTransition, WipeTransition, FallOutTransition, RiseInTransition)
 from kivy.uix.vkeyboard import VKeyboard
@@ -42,11 +43,12 @@ class LongpressButton(Factory.Button):
     def on_long_press(self, *largs):
         pass
 
-
+class LoadingScreen(Screen):
+    pass
 
 class MainScreen(Screen):
-    # version = pkg_resources.require("Droppi2")[0].version
-    droppiversion = 'DropPi v.1.05 - A droplet photography controller'
+    version = pkg_resources.require("Droppi")[0].version
+    droppiversion = f'DropPi v.{version} - A droplet photography controller'
 
     def text_focused(self):
         VKeyboard.layout = 'numeric.json'

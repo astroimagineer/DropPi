@@ -1,5 +1,7 @@
 # File name: DropPiUI.kv
 <ScreenManagement>:
+    LoadingScreen:
+        name: 'loadingscreen'
     MainScreen:
         name: 'mainscreen'
     FileScreen:
@@ -117,6 +119,11 @@
             size: self.size
     width: 200
     size_hint_x: None
+
+<LoadingScreen>:
+    Image:
+        source: 'droppi-logo-for-github.png'
+
 
 <MainScreen>:
     BoxLayout:
