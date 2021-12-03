@@ -43,6 +43,13 @@ The second relay HAT will control the camera and flashes (camera, flash1, flash2
 
 I will update and expand this readme over time.
 
+## Software ##
+DropPi requires the following to be installed on your platform:
+- Latest Raspbian Lite distribution with minimal desktop
+- Python 3.6+
+- Kivy 2.0+
+- SMBUS2 for Python
+
 ## Screenshots
 
 ![](Screenshot1.png)

@@ -16,18 +16,6 @@ from DropPi_lib import *
 # Load libc shared library:
 libc = ctypes.CDLL('libc.so.6')
 
-# Definitions of relays on board 0
-VALVE_1 = 1
-VALVE_2 = 3
-VALVE_3 = 2
-VALVE_4 = 4
-
-# Definitions of relays on board 1
-CAMERA = 5
-FLASH_1 = 7
-FLASH_2 = 6
-FLASH_3 = 8
-
 # General Definitions
 DEF_FLASH_DELAY = 30  # (ms)
 DEF_CAMERA_DELAY = 2500  # (ms)
@@ -61,7 +49,7 @@ def delayus(us):
 # ------------------------------------
 
 
-def thread_valve_1_function(name):
+def thread_valve_1_function():
     global v1_elapsed_time
     start_time = time.perf_counter()
     if MIRROR_LOCKUP:
@@ -74,7 +62,7 @@ def thread_valve_1_function(name):
     v1_elapsed_time = time.perf_counter() - start_time
 
 
-def thread_valve_2_function(name):
+def thread_valve_2_function():
     global v2_elapsed_time
     start_time = time.perf_counter()
     if MIRROR_LOCKUP:
@@ -87,7 +75,7 @@ def thread_valve_2_function(name):
     v2_elapsed_time = time.perf_counter() - start_time
 
 
-def thread_valve_3_function(name):
+def thread_valve_3_function():
     global v3_elapsed_time
     start_time = time.perf_counter()
     if MIRROR_LOCKUP:
@@ -100,7 +88,7 @@ def thread_valve_3_function(name):
     v3_elapsed_time = time.perf_counter() - start_time
 
 
-def thread_valve_4_function(name):
+def thread_valve_4_function():
     global v4_elapsed_time
     start_time = time.perf_counter()
     if MIRROR_LOCKUP:
@@ -113,7 +101,7 @@ def thread_valve_4_function(name):
     v4_elapsed_time = time.perf_counter() - start_time
 
 
-def thread_camera_function(name):
+def thread_camera_function():
     global c_elapsed_time
     start_time = time.perf_counter()
     if MIRROR_LOCKUP:
@@ -128,26 +116,30 @@ def thread_camera_function(name):
     c_elapsed_time = time.perf_counter() - start_time
 
 
-def thread_flash_function(name, flash1, flash2, flash3):
-    # TODO: make correct call towards relays to push required flash relays all at once instead of sequentially
+def thread_flash_function(flash1, flash2, flash3):
     global f_elapsed_time
     start_time = time.perf_counter()
+    # WAIT FOR MIRROR LOCKUP IF NEEDED
     if MIRROR_LOCKUP:
         delayus(700 * 1000)
+    # TURN ON
     delayus(int(TIME_FLASH) * 1000)
-    if flash1:
-        relay_on(FLASH_1)
-    if flash2:
-        relay_on(FLASH_2)
-    if flash3:
-        relay_on(FLASH_3)
+    if not flash1:
+        TMPFLASH_1 = 0
+    else:
+        TMPFLASH_1 = FLASH_1
+    if not flash2:
+        TMPFLASH_2 = 0
+    else:
+        TMPFLASH_2 = FLASH_2
+    if not flash3:
+        TMPFLASH_3 = 0
+    else:
+        TMPFLASH_3 = FLASH_3
+    relay_on(TMPFLASH_1, TMPFLASH_2, TMPFLASH_3)
+    # TURN OFF
     delayus(DEF_FLASH_DELAY * 1000)
-    if flash1:
-        relay_off(FLASH_1)
-    if flash2:
-        relay_off(FLASH_2)
-    if flash3:
-        relay_off(FLASH_3)
+    relay_off(TMPFLASH_1, TMPFLASH_2, TMPFLASH_3)
     f_elapsed_time = time.perf_counter() - start_time
 
 
@@ -190,12 +182,13 @@ def main(**kwargs):
     TIMES_VALVE_4 = kwargs['v4times']
 
     logging.info("DropPi    : before creating threads")
-    thread_valve_1 = threading.Thread(target=thread_valve_1_function, args=("valve1",))
-    thread_valve_2 = threading.Thread(target=thread_valve_2_function, args=("valve2",))
-    thread_valve_3 = threading.Thread(target=thread_valve_3_function, args=("valve3",))
-    thread_valve_4 = threading.Thread(target=thread_valve_4_function, args=("valve4",))
-    thread_camera = threading.Thread(target=thread_camera_function, args=("camera",))
-    thread_flash = threading.Thread(target=thread_flash_function, args=("flash", kwargs['flash1_on'], kwargs['flash2_on'], kwargs['flash3_on']))
+    thread_valve_1 = threading.Thread(target=thread_valve_1_function)
+    thread_valve_2 = threading.Thread(target=thread_valve_2_function)
+    thread_valve_3 = threading.Thread(target=thread_valve_3_function)
+    thread_valve_4 = threading.Thread(target=thread_valve_4_function)
+    thread_camera = threading.Thread(target=thread_camera_function)
+    thread_flash = threading.Thread(target=thread_flash_function, args=(
+        kwargs['flash1_on'], kwargs['flash2_on'], kwargs['flash3_on']))
 
     logging.info("DropPi    : before running threads")
     thread_camera.start()
@@ -230,7 +223,10 @@ def main(**kwargs):
             calculated_error = ((calculated_elapsed_time - v1_elapsed_time) / calculated_elapsed_time) * 100
         except ZeroDivisionError:
             calculated_error = 0
-        logging.info(f'V1 timing error: real; {v1_elapsed_time:.4f}, calculated; {calculated_elapsed_time}, error; {abs(calculated_error):.1f}%')
+        logging.info(
+            f'Valve1 timings: real; {v1_elapsed_time:.4f},'
+            f' calculated; {calculated_elapsed_time},'
+            f' error; {abs(calculated_error):.1f}%')
 
     # V2 ERROR CALCULATION
     calculated_elapsed_time = 0
@@ -245,7 +241,10 @@ def main(**kwargs):
             calculated_error = ((calculated_elapsed_time - v2_elapsed_time) / calculated_elapsed_time) * 100
         except ZeroDivisionError:
             calculated_error = 0
-        logging.info(f'V2 timing error: real; {v2_elapsed_time:.4f}, calculated; {calculated_elapsed_time}, error; {abs(calculated_error):.1f}%')
+        logging.info(
+            f'Valve2 timings: real; {v2_elapsed_time:.4f},'
+            f' calculated; {calculated_elapsed_time},'
+            f' error; {abs(calculated_error):.1f}%')
 
     # V3 ERROR CALCULATION
     calculated_elapsed_time = 0
@@ -261,7 +260,9 @@ def main(**kwargs):
         except ZeroDivisionError:
             calculated_error = 0
         logging.info(
-            f'V3 timing error: real; {v3_elapsed_time:.4f}, calculated; {calculated_elapsed_time}, error; {abs(calculated_error):.1f}%')
+            f'Valve3 timings: real; {v3_elapsed_time:.4f},'
+            f' calculated; {calculated_elapsed_time},'
+            f' error; {abs(calculated_error):.1f}%')
 
     # V4 ERROR CALCULATION
     calculated_elapsed_time = 0
@@ -277,7 +278,9 @@ def main(**kwargs):
         except ZeroDivisionError:
             calculated_error = 0
         logging.info(
-            f'V4 timing error: real; {v4_elapsed_time:.4f}, calculated; {calculated_elapsed_time}, error; {abs(calculated_error):.1f}%')
+            f'Valve4 timings: real; {v4_elapsed_time:.4f},'
+            f' calculated; {calculated_elapsed_time},'
+            f' error; {abs(calculated_error):.1f}%')
 
     # CAMERA ERROR CALCULATION
     calculated_elapsed_time = 0
@@ -292,7 +295,9 @@ def main(**kwargs):
         except ZeroDivisionError:
             calculated_error = 0
         logging.info(
-            f'C timing error: real; {c_elapsed_time:.4f}, calculated; {calculated_elapsed_time}, error; {abs(calculated_error):.1f}%')
+            f'Camera timings: real; {c_elapsed_time:.4f},'
+            f' calculated; {calculated_elapsed_time},'
+            f' error; {abs(calculated_error):.1f}%')
 
     # FLASH ERROR CALCULATION
     calculated_elapsed_time = 0
@@ -307,7 +312,9 @@ def main(**kwargs):
         except ZeroDivisionError:
             calculated_error = 0
         logging.info(
-            f'F timing error: real; {f_elapsed_time:.4f}, calculated; {calculated_elapsed_time}, error; {abs(calculated_error):.1f}%')
+            f'Flash timings: real; {f_elapsed_time:.4f},'
+            f' calculated; {calculated_elapsed_time},'
+            f' error; {abs(calculated_error):.1f}%')
 
     return 0
 

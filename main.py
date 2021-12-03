@@ -957,28 +957,28 @@ class MainScreen(Screen):
 
     # PURGE BUTTONS, PRESS AND RELEASE
     def press_purgev1(self):
-        relay_on(1)
+        relay_on(VALVE_1)
 
     def release_purgev1(self):
-        relay_off(1)
+        relay_off(VALVE_1)
 
     def press_purgev2(self):
-        relay_on(2)
+        relay_on(VALVE_2)
 
     def release_purgev2(self):
-        relay_off(2)
+        relay_off(VALVE_2)
 
     def press_purgev3(self):
-        relay_on(3)
+        relay_on(VALVE_3)
 
     def release_purgev3(self):
-        relay_off(3)
+        relay_off(VALVE_3)
 
     def press_purgev4(self):
-        relay_on(4)
+        relay_on(VALVE_4)
 
     def release_purgev4(self):
-        relay_off(4)
+        relay_off(VALVE_4)
 
     # EXIT BUTTON CALLBACK
     def execute_exit_callback(self):
