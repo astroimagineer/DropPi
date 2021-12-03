@@ -2,13 +2,10 @@
 import DropPiUI_Dropper
 import kivy
 from kivy.app import App
-from kivy.base import runTouchApp
 from kivy.clock import Clock
 from kivy.factory import Factory
 from kivy.core.window import Window
-from kivy.uix.image import Image
-from kivy.uix.screenmanager import (ScreenManager, Screen, NoTransition, SlideTransition, CardTransition,
-                                    SwapTransition, FadeTransition, WipeTransition, FallOutTransition, RiseInTransition)
+from kivy.uix.screenmanager import (ScreenManager, Screen)
 from kivy.uix.vkeyboard import VKeyboard
 from kivy.storage.jsonstore import JsonStore
 from kivy.uix.label import Label
@@ -16,8 +13,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from DropPi_lib import *
-import json
-import pkg_resources  # part of setuptools
 
 kivy.require('1.9.0')
 
@@ -56,6 +51,9 @@ class MainScreen(Screen):
     droppiversion = f'DropPi v.{version} - A droplet photography controller'
 
     def text_focused(self):
+        # TODO: Fix a custom numeric keyboard so that we can place
+        #   it wherever we want on the screen. The Kivy 2.0 vKeyboard
+        #   is not easy to place
         VKeyboard.layout = 'numeric.json'
         VKeyboard.background_color = [1, 1, 1, 1]
         VKeyboard.key_margin = [1, 1, 1, 1]

@@ -130,7 +130,6 @@ def thread_camera_function(name):
 
 def thread_flash_function(name, flash1, flash2, flash3):
     # TODO: make correct call towards relays to push required flash relays all at once instead of sequentially
-
     global f_elapsed_time
     start_time = time.perf_counter()
     if MIRROR_LOCKUP:
