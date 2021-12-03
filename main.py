@@ -21,7 +21,7 @@ import pkg_resources  # part of setuptools
 
 kivy.require('1.9.0')
 
-version = '1.05'
+version = '1.06'
 
 root_folder = ''
 
