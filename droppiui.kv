@@ -1,0 +1,1347 @@
+# File name: DropPiUI.kv
+<ScreenManagement>:
+    MainScreen:
+        name: 'mainscreen'
+    FileScreen:
+        name: 'filescreen'
+    LoadingScreen:
+        name: 'loadingscreen'
+
+<FireButton@Button>:
+    id: minbutton
+    text: '\u2022FIRE\u2022'
+    size: 80, 30
+    size_hint: None, None
+    color: (88/255, 124/255, 230/255, 1)
+    background_color: (48/255, 84/255, 190/255, 1)
+    #background_normal: 'atlas://data/images/defaulttheme/textinput'
+    font_size: 22
+    pos_hint: {'right': 1}
+    #pos_hint: {'top': 1}
+
+<MinButton@LongpressButton>:
+    id: minbutton
+    text: '-'
+    size: 30, 30
+    size_hint: None, None
+    color: .6,.6,1,1
+    background_color: (38/255, 74/255, 180/255, 1)
+    font_size: 32
+    long_press_time: 0.5
+
+<PlusButton@LongpressButton>:
+    id: plusbutton
+    text: '+'
+    size: 30, 30
+    size_hint: None, None
+    color: .6,.6,1,1
+    background_color: (38/255, 74/255, 180/255, 1)
+    font_size: 32
+    long_press_time: 0.5
+
+<ValveToggleButton@Button>:
+    id: plusbutton
+    text: '+'
+    size: 30, 30
+    size_hint: None, None
+    color: .1,.1,.8,1
+    background_color: (38/255, 74/255, 180/255, 1)
+    font_size: 26
+
+<LValveToggleButton@LongpressButton>:
+    id: plusbutton
+    text: '+'
+    size: 30, 30
+    size_hint: None, None
+    color: .1,.1,.8,1
+    background_color: (38/255, 74/255, 180/255, 1)
+    font_size: 26
+
+<DropToggleButton@Button>:
+    id: plusbutton
+    text: '+'
+    size: 30, 30
+    size_hint: None, None
+    color: .5,.5,1,1
+    background_color: (38/255, 74/255, 180/255, 1)
+    font_size: 26
+
+<OnTextInput@TextInput>:
+    id: ontextinput
+    text: '120'
+    size: 50, 30
+    size_hint: None, None
+    input_type: 'number'
+
+<OffTextInput@TextInput>:
+    id: offtextinput
+    text: '30'
+    size: 50, 30
+    size_hint: None, None
+    input_type: 'number'
+
+<ValveLabel@Label>
+    text: 'TIME'
+    size: 30, 30
+    size_hint: None, None
+    font_size: 16
+    color: .6,.6,1,1
+
+<TimeLabel@Label>
+    text: 'TIME'
+    size: 40, 30
+    size_hint: None, None
+    font_size: 16
+    color: .4,.4,.4,1
+
+<RowSpacer@BoxLayout>:
+    orientation: 'horizontal'
+    height: 8
+    size_hint_y: None
+    Widget:
+
+<ColorWidget@Widget>:
+    canvas.before:
+        Color:
+            rgba: 0/255, 128/255, 0/255, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    width: 200
+    size_hint_x: None
+
+<NoColorWidget@Widget>:
+    canvas.before:
+        Color:
+            rgba: 0/255, 0/255, 0/255, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    width: 200
+    size_hint_x: None
+
+<LoadingScreen>:
+    Image:
+        source: 'droppi-logo-for-github.png'
+
+
+<MainScreen>:
+    BoxLayout:
+        id: topscreen
+        # canvas:
+        #     Color:
+        #         rgba: 0 / 255., 40 / 255., 0 / 255., 1
+        #     Rectangle:
+        #         pos: self.pos
+        #         size: self.size
+        orientation: 'horizontal'
+        padding: 6
+        BoxLayout:
+            id: allvalvesstuff
+            orientation: 'vertical'
+            spacing: 0
+            canvas:
+                Color:
+                    rgba: 0 / 255., 0 / 255., 0 / 255., 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            # Valve 1 ON row
+            BoxLayout:
+                id: v1on
+                orientation: 'horizontal'
+                height: 32
+                size_hint_y: None
+                canvas:
+                    Color:
+                        rgba: 15 / 255., 15 / 255., 15 / 255., 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 40
+                    size_hint_x: None
+                    ValveToggleButton:
+                        id: valvetoggle1
+                        text: '1'
+                        bold: True
+                        font_size: 24
+                        color: 1,1,1,1
+                        on_press: root.press_valvetoggle1callback()
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 50
+                    size_hint_x: None
+                    TimeLabel:
+                        text: 'TIME'
+                # Valve 1, drop 1 stuff
+                BoxLayout:
+                    id: v1d1on
+                    orientation: 'horizontal'
+                    MinButton:
+                        id: v1d1on_min
+                        on_press: root.press_v1d1on_min(False)
+                        on_long_press: root.press_v1d1on_min(True)
+                    OnTextInput:
+                        id: v1d1on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v1d1on_plus
+                        on_press: root.press_v1d1on_plus(False)
+                        on_long_press: root.press_v1d1on_plus(True)
+                # Valve 1, drop 2 stuff
+                BoxLayout:
+                    id: v1d2on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v1d2on_min
+                        on_press: root.press_v1d2on_min(False)
+                        on_long_press: root.press_v1d2on_min(True)
+                    OnTextInput:
+                        id: v1d2on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v1d2on_plus
+                        on_press: root.press_v1d2on_plus(False)
+                        on_long_press: root.press_v1d2on_plus(True)
+                # Valve 1, drop 3 stuff
+                BoxLayout:
+                    id: v1d3on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v1d3on_min
+                        on_press: root.press_v1d3on_min(False)
+                        on_long_press: root.press_v1d3on_min(True)
+                    OnTextInput:
+                        id: v1d3on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v1d3on_plus
+                        on_press: root.press_v1d3on_plus(False)
+                        on_long_press: root.press_v1d3on_plus(True)
+                # Valve 1, drop 4 stuff
+                BoxLayout:
+                    id: v1d4on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v1d4on_min
+                        on_press: root.press_v1d4on_min(False)
+                        on_long_press: root.press_v1d4on_min(True)
+                    OnTextInput:
+                        id: v1d4on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v1d4on_plus
+                        on_press: root.press_v1d4on_plus(False)
+                        on_long_press: root.press_v1d4on_plus(True)
+                BoxLayout:
+                    id: v1toggles
+                    orientation: 'horizontal'
+                    Widget:
+                    DropToggleButton:
+                        id: v1d2toggle
+                        text: '2'
+                        on_press: root.press_v1d2togglecallback()
+                    DropToggleButton:
+                        id: v1d3toggle
+                        text: '3'
+                        disabled: True
+                        on_press: root.press_v1d3togglecallback()
+                    DropToggleButton:
+                        id: v1d4toggle
+                        text: '4'
+                        disabled: True
+                        on_press: root.press_v1d4togglecallback()
+
+            # Valve 1 OFF row
+            BoxLayout:
+                id: v1off
+                orientation: 'horizontal'
+                height: 32
+                size_hint_y: None
+                canvas:
+                    Color:
+                        rgba: 15 / 255., 15 / 255., 15 / 255., 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 40
+                    size_hint_x: None
+                    TimeLabel:
+                        text: ''
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 50
+                    size_hint_x: None
+                    TimeLabel:
+                        text: 'DROP'
+                # Valve 1, drop 1 stuff
+                BoxLayout:
+                    id: v1d1off
+                    orientation: 'horizontal'
+                    MinButton:
+                        id: v1d1off_min
+                        on_press: root.press_v1d1off_min(False)
+                        on_long_press: root.press_v1d1off_min(True)
+                    OffTextInput:
+                        id: v1d1off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v1d1off_plus
+                        on_press: root.press_v1d1off_plus(False)
+                        on_long_press: root.press_v1d1off_plus(True)
+                # Valve 1, drop 2 stuff
+                BoxLayout:
+                    id: v1d2off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v1d2off_min
+                        on_press: root.press_v1d2off_min(False)
+                        on_long_press: root.press_v1d2off_min(True)
+                    OffTextInput:
+                        id: v1d2off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v1d2off_plus
+                        on_press: root.press_v1d2off_plus(False)
+                        on_long_press: root.press_v1d2off_plus(True)
+                # Valve 1, drop 3 stuff
+                BoxLayout:
+                    id: v1d3off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v1d3off_min
+                        on_press: root.press_v1d3off_min(False)
+                        on_long_press: root.press_v1d3off_min(True)
+                    OffTextInput:
+                        id: v1d3off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v1d3off_plus
+                        on_press: root.press_v1d3off_plus(False)
+                        on_long_press: root.press_v1d3off_plus(True)
+                # Valve 1, drop 4 stuff
+                BoxLayout:
+                    id: v1d4off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v1d4off_min
+                        on_press: root.press_v1d4off_min(False)
+                        on_long_press: root.press_v1d4off_min(True)
+                    OffTextInput:
+                        id: v1d4off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v1d4off_plus
+                        on_press: root.press_v1d4off_plus(False)
+                        on_long_press: root.press_v1d4off_plus(True)
+                BoxLayout:
+                    id: v1toggle
+                    orientation: 'horizontal'
+                    Widget:
+                        width: 48
+                        size_hint_x: None
+
+
+            # RowSpacer
+            RowSpacer:
+
+
+            # Valve 2 ON row
+            BoxLayout:
+                id: v2on
+                orientation: 'horizontal'
+                height: 32
+                size_hint_y: None
+                canvas:
+                    Color:
+                        rgba: 5 / 255., 5 / 255., 5 / 255., 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 40
+                    size_hint_x: None
+                    ValveToggleButton:
+                        id: valvetoggle2
+                        text: '2'
+                        bold: True
+                        font_size: 24
+                        on_press: root.press_valvetoggle2callback()
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 50
+                    size_hint_x: None
+                    TimeLabel:
+                        text: 'TIME'
+                # Valve 2, drop 1 stuff
+                BoxLayout:
+                    id: v2d1on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v2d1on_min
+                        on_press: root.press_v2d1on_min(False)
+                        on_long_press: root.press_v2d1on_min(True)
+                    OnTextInput:
+                        id: v2d1on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v2d1on_plus
+                        on_press: root.press_v2d1on_plus(False)
+                        on_long_press: root.press_v2d1on_plus(True)
+                # Valve 2, drop 2 stuff
+                BoxLayout:
+                    id: v2d2on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v2d2on_min
+                        on_press: root.press_v2d2on_min(False)
+                        on_long_press: root.press_v2d2on_min(True)
+                    OnTextInput:
+                        id: v2d2on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v2d2on_plus
+                        on_press: root.press_v2d2on_plus(False)
+                        on_long_press: root.press_v2d2on_plus(True)
+                # Valve 2, drop 3 stuff
+                BoxLayout:
+                    id: v2d3on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v2d3on_min
+                        on_press: root.press_v2d3on_min(False)
+                        on_long_press: root.press_v2d3on_min(True)
+                    OnTextInput:
+                        id: v2d3on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v2d3on_plus
+                        on_press: root.press_v2d3on_plus(False)
+                        on_long_press: root.press_v2d3on_plus(True)
+                # Valve 2, drop 4 stuff
+                BoxLayout:
+                    id: v2d4on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v2d4on_min
+                        on_press: root.press_v2d4on_min(False)
+                        on_long_press: root.press_v2d4on_min(True)
+                    OnTextInput:
+                        id: v2d4on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v2d4on_plus
+                        on_press: root.press_v2d4on_plus(False)
+                        on_long_press: root.press_v2d4on_plus(True)
+                BoxLayout:
+                    id: v2spacer
+                    orientation: 'horizontal'
+                    Widget:
+                    DropToggleButton:
+                        id: v2d2toggle
+                        text: '2'
+                        disabled: True
+                        on_press: root.press_v2d2togglecallback()
+                    DropToggleButton:
+                        id: v2d3toggle
+                        text: '3'
+                        disabled: True
+                        on_press: root.press_v2d3togglecallback()
+                    DropToggleButton:
+                        id: v2d4toggle
+                        text: '4'
+                        disabled: True
+                        on_press: root.press_v2d4togglecallback()
+
+            # Valve 2 OFF row
+            BoxLayout:
+                id: v2off
+                orientation: 'horizontal'
+                height: 32
+                size_hint_y: None
+                canvas:
+                    Color:
+                        rgba: 5 / 255., 5 / 255., 5 / 255., 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 40
+                    size_hint_x: None
+                    TimeLabel:
+                        text: ''
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 50
+                    size_hint_x: None
+                    TimeLabel:
+                        text: 'DROP'
+                # Valve 2, drop 1 stuff
+                BoxLayout:
+                    id: v2d1off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v2d1off_min
+                        on_press: root.press_v2d1off_min(False)
+                        on_long_press: root.press_v2d1off_min(True)
+                    OffTextInput:
+                        id: v2d1off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v2d1off_plus
+                        on_press: root.press_v2d1off_plus(False)
+                        on_long_press: root.press_v2d1off_plus(True)
+                # Valve 2, drop 2 stuff
+                BoxLayout:
+                    id: v2d2off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v2d2off_min
+                        on_press: root.press_v2d2off_min(False)
+                        on_long_press: root.press_v2d2off_min(True)
+                    OffTextInput:
+                        id: v2d2off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v2d2off_plus
+                        on_press: root.press_v2d2off_plus(False)
+                        on_long_press: root.press_v2d2off_plus(True)
+                # Valve 2, drop 3 stuff
+                BoxLayout:
+                    id: v2d3off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v2d3off_min
+                        on_press: root.press_v2d3off_min(False)
+                        on_long_press: root.press_v2d3off_min(True)
+                    OffTextInput:
+                        id: v2d3off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v2d3off_plus
+                        on_press: root.press_v2d3off_plus(False)
+                        on_long_press: root.press_v2d3off_plus(True)
+                # Valve 2, drop 4 stuff
+                BoxLayout:
+                    id: v2d4off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v2d4off_min
+                        on_press: root.press_v2d4off_min(False)
+                        on_long_press: root.press_v2d4off_min(True)
+                    OffTextInput:
+                        id: v2d4off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v2d4off_plus
+                        on_press: root.press_v2d4off_plus(False)
+                        on_long_press: root.press_v2d4off_plus(True)
+                BoxLayout:
+                    id: v2toggle
+                    orientation: 'horizontal'
+                    Widget:
+                        width: 48
+                        size_hint_x: None
+
+
+            # RowSpacer
+            RowSpacer:
+
+
+            # Valve 3 ON row
+            BoxLayout:
+                id: v3on
+                orientation: 'horizontal'
+                height: 32
+                size_hint_y: None
+                canvas:
+                    Color:
+                        rgba: 15 / 255., 15 / 255., 15 / 255., 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 40
+                    size_hint_x: None
+                    ValveToggleButton:
+                        id: valvetoggle3
+                        text: '3'
+                        bold: True
+                        font_size: 24
+                        on_press: root.press_valvetoggle3callback()
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 50
+                    size_hint_x: None
+                    TimeLabel:
+                        text: 'TIME'
+                # Valve 3, drop 1 stuff
+                BoxLayout:
+                    id: v3d1on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v3d1on_min
+                        on_press: root.press_v3d1on_min(False)
+                        on_long_press: root.press_v3d1on_min(True)
+                    OnTextInput:
+                        id: v3d1on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v3d1on_plus
+                        on_press: root.press_v3d1on_plus(False)
+                        on_long_press: root.press_v3d1on_plus(True)
+                # Valve 3, drop 2 stuff
+                BoxLayout:
+                    id: v3d2on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v3d2on_min
+                        on_press: root.press_v3d2on_min(False)
+                        on_long_press: root.press_v3d2on_min(True)
+                    OnTextInput:
+                        id: v3d2on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v3d2on_plus
+                        on_press: root.press_v3d2on_plus(False)
+                        on_long_press: root.press_v3d2on_plus(True)
+                # Valve 3, drop 3 stuff
+                BoxLayout:
+                    id: v3d3on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v3d3on_min
+                        on_press: root.press_v3d3on_min(False)
+                        on_long_press: root.press_v3d3on_min(True)
+                    OnTextInput:
+                        id: v3d3on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v3d3on_plus
+                        on_press: root.press_v3d3on_plus(False)
+                        on_long_press: root.press_v3d3on_plus(True)
+                # Valve 3, drop 4 stuff
+                BoxLayout:
+                    id: v3d4on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v3d4on_min
+                        on_press: root.press_v3d4on_min(False)
+                        on_long_press: root.press_v3d4on_min(True)
+                    OnTextInput:
+                        id: v3d4on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v3d4on_plus
+                        on_press: root.press_v3d4on_plus(False)
+                        on_long_press: root.press_v3d4on_plus(True)
+                BoxLayout:
+                    id: v3spacer
+                    orientation: 'horizontal'
+                    Widget:
+                    DropToggleButton:
+                        id: v3d2toggle
+                        text: '2'
+                        disabled: True
+                        on_press: root.press_v3d2togglecallback()
+                    DropToggleButton:
+                        id: v3d3toggle
+                        text: '3'
+                        disabled: True
+                        on_press: root.press_v3d3togglecallback()
+                    DropToggleButton:
+                        id: v3d4toggle
+                        text: '4'
+                        disabled: True
+                        on_press: root.press_v3d4togglecallback()
+
+            # Valve 3 OFF row
+            BoxLayout:
+                id: v3off
+                orientation: 'horizontal'
+                height: 32
+                size_hint_y: None
+                canvas:
+                    Color:
+                        rgba: 15 / 255., 15 / 255., 15 / 255., 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 40
+                    size_hint_x: None
+                    TimeLabel:
+                        text: ''
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 50
+                    size_hint_x: None
+                    TimeLabel:
+                        text: 'DROP'
+                # Valve 3, drop 1 stuff
+                BoxLayout:
+                    id: v3d1off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v3d1off_min
+                        on_press: root.press_v3d1off_min(False)
+                        on_long_press: root.press_v3d1off_min(True)
+                    OffTextInput:
+                        id: v3d1off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v3d1off_plus
+                        on_press: root.press_v3d1off_plus(False)
+                        on_long_press: root.press_v3d1off_plus(True)
+                # Valve 3, drop 2 stuff
+                BoxLayout:
+                    id: v3d2off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v3d2off_min
+                        on_press: root.press_v3d2off_min(False)
+                        on_long_press: root.press_v3d2off_min(True)
+                    OffTextInput:
+                        id: v3d2off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v3d2off_plus
+                        on_press: root.press_v3d2off_plus(False)
+                        on_long_press: root.press_v3d2off_plus(True)
+                # Valve 3, drop 3 stuff
+                BoxLayout:
+                    id: v3d3off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v3d3off_min
+                        on_press: root.press_v3d3off_min(False)
+                        on_long_press: root.press_v3d3off_min(True)
+                    OffTextInput:
+                        id: v3d3off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v3d3off_plus
+                        on_press: root.press_v3d3off_plus(False)
+                        on_long_press: root.press_v3d3off_plus(True)
+                # Valve 3, drop 4 stuff
+                BoxLayout:
+                    id: v3d4off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v3d4off_min
+                        on_press: root.press_v3d4off_min(False)
+                        on_long_press: root.press_v3d4off_min(True)
+                    OffTextInput:
+                        id: v3d4off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v3d4off_plus
+                        on_press: root.press_v3d4off_plus(False)
+                        on_long_press: root.press_v3d4off_plus(True)
+                BoxLayout:
+                    id: v3toggle
+                    orientation: 'horizontal'
+                    Widget:
+                        width: 48
+                        size_hint_x: None
+
+
+            # RowSpacer
+            RowSpacer:
+
+
+            # Valve 4 ON row
+            BoxLayout:
+                id: v4on
+                orientation: 'horizontal'
+                height: 32
+                size_hint_y: None
+                canvas:
+                    Color:
+                        rgba: 5 / 255., 5 / 255., 5 / 255., 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 40
+                    size_hint_x: None
+                    ValveToggleButton:
+                        id: valvetoggle4
+                        text: '4'
+                        bold: True
+                        font_size: 24
+                        on_press: root.press_valvetoggle4callback()
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 50
+                    size_hint_x: None
+                    TimeLabel:
+                        text: 'TIME'
+                # Valve 4, drop 1 stuff
+                BoxLayout:
+                    id: v4d1on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v4d1on_min
+                        on_press: root.press_v4d1on_min(False)
+                        on_long_press: root.press_v4d1on_min(True)
+                    OnTextInput:
+                        id: v4d1on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v4d1on_plus
+                        on_press: root.press_v4d1on_plus(False)
+                        on_long_press: root.press_v4d1on_plus(True)
+                # Valve 4, drop 2 stuff
+                BoxLayout:
+                    id: v4d2on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v4d2on_min
+                        on_press: root.press_v4d2on_min(False)
+                        on_long_press: root.press_v4d2on_min(True)
+                    OnTextInput:
+                        id: v4d2on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v4d2on_plus
+                        on_press: root.press_v4d2on_plus(False)
+                        on_long_press: root.press_v4d2on_plus(True)
+                # Valve 4, drop 3 stuff
+                BoxLayout:
+                    id: v4d3on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v4d3on_min
+                        on_press: root.press_v4d3on_min(False)
+                        on_long_press: root.press_v4d3on_min(True)
+                    OnTextInput:
+                        id: v4d3on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v4d3on_plus
+                        on_press: root.press_v4d3on_plus(False)
+                        on_long_press: root.press_v4d3on_plus(True)
+                # Valve 4, drop 4 stuff
+                BoxLayout:
+                    id: v4d4on
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v4d4on_min
+                        on_press: root.press_v4d4on_min(False)
+                        on_long_press: root.press_v4d4on_min(True)
+                    OnTextInput:
+                        id: v4d4on_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v4d4on_plus
+                        on_press: root.press_v4d4on_plus(False)
+                        on_long_press: root.press_v4d4on_plus(True)
+                BoxLayout:
+                    id: v4spacer
+                    orientation: 'horizontal'
+                    Widget:
+                    DropToggleButton:
+                        id: v4d2toggle
+                        text: '2'
+                        disabled: True
+                        on_press: root.press_v4d2togglecallback()
+                    DropToggleButton:
+                        id: v4d3toggle
+                        text: '3'
+                        disabled: True
+                        on_press: root.press_v4d3togglecallback()
+                    DropToggleButton:
+                        id: v4d4toggle
+                        text: '4'
+                        disabled: True
+                        on_press: root.press_v4d4togglecallback()
+
+            # Valve 4 OFF row
+            BoxLayout:
+                id: v4off
+                orientation: 'horizontal'
+                height: 32
+                size_hint_y: None
+                canvas:
+                    Color:
+                        rgba: 5 / 255., 5 / 255., 5 / 255., 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 40
+                    size_hint_x: None
+                    TimeLabel:
+                        text: ''
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 50
+                    size_hint_x: None
+                    TimeLabel:
+                        text: 'DROP'
+                # Valve 4, drop 1 stuff
+                BoxLayout:
+                    id: v4d1off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v4d1off_min
+                        on_press: root.press_v4d1off_min(False)
+                        on_long_press: root.press_v4d1off_min(True)
+                    OffTextInput:
+                        id: v4d1off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v4d1off_plus
+                        on_press: root.press_v4d1off_plus(False)
+                        on_long_press: root.press_v4d1off_plus(True)
+                # Valve 4, drop 2 stuff
+                BoxLayout:
+                    id: v4d2off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v4d2off_min
+                        on_press: root.press_v4d2off_min(False)
+                        on_long_press: root.press_v4d2off_min(True)
+                    OffTextInput:
+                        id: v4d2off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v4d2off_plus
+                        on_press: root.press_v4d2off_plus(False)
+                        on_long_press: root.press_v4d2off_plus(True)
+                # Valve 4, drop 3 stuff
+                BoxLayout:
+                    id: v4d3off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v4d3off_min
+                        on_press: root.press_v4d3off_min(False)
+                        on_long_press: root.press_v4d3off_min(True)
+                    OffTextInput:
+                        id: v4d3off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v4d3off_plus
+                        on_press: root.press_v4d3off_plus(False)
+                        on_long_press: root.press_v4d3off_plus(True)
+                # Valve 4, drop 4 stuff
+                BoxLayout:
+                    id: v4d4off
+                    orientation: 'horizontal'
+                    opacity: 0
+                    disabled: True
+                    MinButton:
+                        id: v4d4off_min
+                        on_press: root.press_v4d4off_min(False)
+                        on_long_press: root.press_v4d4off_min(True)
+                    OffTextInput:
+                        id: v4d4off_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: v4d4off_plus
+                        on_press: root.press_v4d4off_plus(False)
+                        on_long_press: root.press_v4d4off_plus(True)
+                BoxLayout:
+                    id: v4toggle
+                    orientation: 'horizontal'
+                    Widget:
+                        width: 48
+                        size_hint_x: None
+
+
+            # RowSpacers
+            RowSpacer:
+            RowSpacer:
+
+            BoxLayout:
+                orientation: 'horizontal'
+                TimeLabel:
+                    text: 'CAMERA'
+                    width: 80
+                    size_hint_x: None
+                    color: (.5, .5, 1, 1)
+                Widget:
+                    width: 10
+                    size_hint_x: None
+                # Camera stuff
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 50
+                    size_hint_x: None
+                    TimeLabel:
+                        text: 'TIME'
+                BoxLayout:
+                    id: camon
+                    orientation: 'horizontal'
+                    size_hint_x: None
+                    width: 110
+                    MinButton:
+                        id: camon_min
+                        on_press: root.press_camon_min(False)
+                        on_long_press: root.press_camon_min(True)
+                    OnTextInput:
+                        id: camon_val
+                        text: '100'
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: camon_plus
+                        on_press: root.press_camon_plus(False)
+                        on_long_press: root.press_camon_plus(True)
+                NoColorWidget:
+                    width: 30
+                # Camera stuff
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 50
+                    size_hint_x: None
+                    TimeLabel:
+                        text: 'HOLD'
+                BoxLayout:
+                    id: camoff
+                    orientation: 'horizontal'
+                    MinButton:
+                        id: camoff_min
+                        on_press: root.press_camoff_min(False)
+                        on_long_press: root.press_camoff_min(True)
+                    OffTextInput:
+                        id: camoff_val
+                        text: '1200'
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: camoff_plus
+                        on_press: root.press_camoff_plus(False)
+                        on_long_press: root.press_camoff_plus(True)
+                    BoxLayout:
+                        id: mirrorlockup
+                        orientation: 'horizontal'
+                        Widget: # fills up all remaining space!
+                        CheckBox:
+                            id: mirrorlockup_on
+                            size_hint_x: None
+                            width: 30
+                            active: True
+                        Label:
+                            font_size: 10
+                            text: 'MIRROR LOCKUP'
+                            valign: 'top'
+                            size_hint_x: None
+                            width: 90
+
+
+            # RowSpacer
+            # RowSpacer:
+
+            BoxLayout:
+                orientation: 'horizontal'
+                TimeLabel:
+                    width: 80
+                    size_hint_x: None
+                    color: (.5, .5, 1, 1)
+                    text: 'FLASHES'
+                Widget:
+                    width: 10
+                    size_hint_x: None
+                # Flashes stuff
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 50
+                    size_hint_x: None
+                    TimeLabel:
+                        text: 'TIME'
+                BoxLayout:
+                    id: flashon
+                    orientation: 'horizontal'
+                    size_hint_x: None
+                    width: 110
+                    MinButton:
+                        id: flashon_min
+                        on_press: root.press_flashon_min(False)
+                        on_long_press: root.press_flashon_min(True)
+                    OnTextInput:
+                        id: flashon_val
+                        text: '300'
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: flashon_plus
+                        on_press: root.press_flashon_plus(False)
+                        on_long_press: root.press_flashon_plus(True)
+
+                NoColorWidget:
+                    width: 30
+                # Camera stuff
+                BoxLayout:
+                    orientation: 'horizontal'
+                    width: 50
+                    size_hint_x: None
+                    TimeLabel:
+                        text: 'HOLD'
+                BoxLayout:
+                    id: flashoff
+                    orientation: 'horizontal'
+                    MinButton:
+                        id: flashoff_min
+                        on_press: root.press_flashoff_min(False)
+                        on_long_press: root.press_flashoff_min(True)
+                    OffTextInput:
+                        id: flashoff_val
+                        on_focus: root.text_focused()
+                    PlusButton:
+                        id: flashoff_plus
+                        on_press: root.press_flashoff_plus(False)
+                        on_long_press: root.press_flashoff_plus(True)
+                Widget:
+                DropToggleButton:
+                    id: f1toggle
+                    text: 'F1'
+                    width: 40
+                    color: (1, 1, 1, 1)
+                    on_press: root.press_f1togglecallback()
+                DropToggleButton:
+                    id: f2toggle
+                    text: 'F2'
+                    width: 40
+                    on_press: root.press_f2togglecallback()
+                DropToggleButton:
+                    id: f3toggle
+                    text: 'F3'
+                    width: 40
+                    on_press: root.press_f3togglecallback()
+            #spacer (bottom)
+            RowSpacer:
+                height: 50
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    text: 'PURGE'
+                    size_hint_x: None
+                    width: 60
+                    color: (.5, .5, 1, 1)
+                NoColorWidget:
+                    width: 10
+                DropToggleButton:
+                    id: purgev1
+                    text: '1'
+                    on_press: root.press_purgev1()
+                    on_release: root. release_purgev1()
+                NoColorWidget:
+                    width: 10
+                DropToggleButton:
+                    id: purgev2
+                    text: '2'
+                    on_press: root.press_purgev2()
+                    on_release: root. release_purgev2()
+                NoColorWidget:
+                    width: 10
+                DropToggleButton:
+                    id: purgev3
+                    text: '3'
+                    on_press: root.press_purgev3()
+                    on_release: root. release_purgev3()
+                NoColorWidget:
+                    width: 10
+                DropToggleButton:
+                    id: purgev4
+                    text: '4'
+                    on_press: root.press_purgev4()
+                    on_release: root. release_purgev4()
+                NoColorWidget:
+                    width: 100
+
+
+            BoxLayout:
+                orientation: 'vertical'
+                BoxLayout:
+                    orientation: 'horizontal'
+                    Widget:
+                    Label:
+                        font_size: 12
+                        color: .3, .3, .3, 1
+                        text: root.droppiversion
+                BoxLayout:
+                    orientation: 'horizontal'
+                    Widget:
+                    Label:
+                        font_size: 10
+                        color: .1, .1, .1, 1
+                        text: '\xa9 2021-2022 Dalmeijer ICT / K. Dalmeijer'
+
+        # Top row
+        BoxLayout:
+            orientation: 'vertical'
+            width: 94
+            size_hint_x: None
+            FireButton:
+                id: firebutton
+                height: 60
+                color: (98/255, 134/255, 240/255, 1)
+                background_color: (88/255, 124/255, 255/255, 1)
+                on_press: root.execute_sequence_callback()
+                #pos_hint: {'top': 1}
+                #pos_hint: {'right': 1}
+            NoColorWidget:
+                size_hint_y: None
+                height: 80
+            FireButton:
+                id: filesbutton
+                text: 'FILES'
+                on_press:
+                    root.manager.transition.direction = 'down'
+                    root.manager.transition.duration = .2
+                    app.root.current = "filescreen"
+            NoColorWidget:
+                size_hint_y: None
+                height: 40
+            FireButton:
+                id: exitbutton
+                text: 'EXIT'
+                on_press: root.execute_exit_callback()
+            Widget:
+            Image:
+                source: 'droppi-logo.png'
+                size_hint_y: None
+                size: self.texture_size
+
+<FileScreen>:
+    BoxLayout:
+        size_hint_y: None
+        # Providing the orientation
+        orientation: 'vertical'
+
+        # Creating the File list / icon view
+
+        BoxLayout:
+            size_hint_y: None
+            # Creating list view one side
+            FileChooserListView:
+                id: filechooser
+                size_hint_y: None
+                height: 300
+                #canvas.before:
+                #    Color:
+                #        rgb: .4, .5, .5
+                #    Rectangle:
+                #        pos: self.pos
+                #        size: self.size
+                on_selection: root.select(filechooser.selection)
+                path: '.'
+                #"~/"
+                filters: ['*.json']
+        # Adding label
+        Widget:
+            size_hint_y: None
+            height: 110
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 40
+            TimeLabel:
+                id: label
+                text: 'FILE: '
+                width: 90
+            OnTextInput:
+                id: filename_val
+                width: 300
+                text: ''
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 30
+            Label:
+                id: filescreen_status
+                text:''
+                size_hint_x: None
+                width: 400
+            Widget:
+            FireButton:
+                text: "SAVE"
+                width: 90
+                on_press:
+                    root.execute_save_callback()
+                    #app.root.current = "mainscreen"
+                    #root.manager.transition.direction = "right"
+            NoColorWidget:
+                width: 14
+            FireButton:
+                text: "LOAD"
+                width: 90
+                on_press:
+                    root.execute_load_callback()
+                    #app.root.current = "mainscreen"
+                    #root.manager.transition.direction = "right"
+            NoColorWidget:
+                width: 14
+            FireButton:
+                text: "BACK"
+                width: 90
+                on_press:
+                    app.root.current = "mainscreen"
+                    root.manager.transition.direction = "up"
