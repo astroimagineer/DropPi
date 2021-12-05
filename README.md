@@ -59,10 +59,10 @@ Personally, I use [RaspiBackup](https://github.com/framps/raspiBackup). I use it
 _Fig.1: the basic screen at startup_
 
 ![Main screen2](Screenshot4.png)
-Fig.2: Valves 1 and 3 active, with 1 and 3 drops respectively
+_Fig.2: Valves 1 and 3 active, with 1 and 3 drops respectively_
 
 ![Main screen3](Screenshot6.png)
-Fig.3: Custom numeric touch keypad 
+_Fig.3: Custom numeric touch keypad_ 
 
 ![Files manager](Screenshot2.png)
-Fig.4: The file manager
+_Fig.4: The file manager_
