@@ -41,6 +41,9 @@ As far as hardware goes, I am using the following components. I suggest you do t
 The first relay HAT will control the four valves in order (relay 1 - valve 1, etc.).
 The second relay HAT will control the camera and flashes (camera, flash1, flash2, flash3).
 
+The below schematic should give you a rough idea of how to connect your stuff;
+![schematic](droppi-connection-schematic.png)
+
 I will update and expand this readme over time.
 
 ## Software ##
