@@ -6,7 +6,6 @@ from kivy.clock import Clock
 from kivy.factory import Factory
 from kivy.core.window import Window
 from kivy.uix.screenmanager import (ScreenManager, Screen)
-from kivy.uix.vkeyboard import VKeyboard
 from kivy.storage.jsonstore import JsonStore
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
@@ -21,6 +20,16 @@ version = '1.06'
 root_folder = ''
 
 template_file = ''
+
+
+def format_number(value):
+    if "." in value:
+        value = str("{:.1f}".format(float(value)))
+    else:
+        value = str("{:.0f}".format(float(value)))
+    if ".0" in value:
+        value = str("{:.0f}".format(float(value)))
+    return value
 
 
 class LongpressButton(Factory.Button):
@@ -42,6 +51,61 @@ class LongpressButton(Factory.Button):
         pass
 
 
+class NumKeyboardPopup(Popup):
+
+    def press_read(self):
+        app = App.get_running_app()
+        self.ids.popup_label.text = str(app.instance_selected)
+        print(app.instance_selected)
+
+    def press_0(self):
+        self.ids.popup_number_screen.text = format_number(self.ids.popup_number_screen.text + '0')
+
+    def press_1(self):
+        self.ids.popup_number_screen.text = format_number(self.ids.popup_number_screen.text + '1')
+
+    def press_2(self):
+        self.ids.popup_number_screen.text = format_number(self.ids.popup_number_screen.text + '2')
+
+    def press_3(self):
+        self.ids.popup_number_screen.text = format_number(self.ids.popup_number_screen.text + '3')
+
+    def press_4(self):
+        self.ids.popup_number_screen.text = format_number(self.ids.popup_number_screen.text + '4')
+
+    def press_5(self):
+        self.ids.popup_number_screen.text = format_number(self.ids.popup_number_screen.text + '5')
+
+    def press_6(self):
+        self.ids.popup_number_screen.text = format_number(self.ids.popup_number_screen.text + '6')
+
+    def press_7(self):
+        self.ids.popup_number_screen.text = format_number(self.ids.popup_number_screen.text + '7')
+
+    def press_8(self):
+        self.ids.popup_number_screen.text = format_number(self.ids.popup_number_screen.text + '8')
+
+    def press_9(self):
+        self.ids.popup_number_screen.text = format_number(self.ids.popup_number_screen.text + '9')
+
+    def press_dot(self):
+        if "." not in self.ids.popup_number_screen.text:
+            self.ids.popup_number_screen.text = self.ids.popup_number_screen.text + '.'
+
+    def press_enter(self):
+        app = App.get_running_app()
+        app.instance_selected.text = self.ids.popup_number_screen.text
+        self.dismiss()
+
+    def press_backspace(self):
+        self.ids.popup_number_screen.text = self.ids.popup_number_screen.text[:-1]
+        if self.ids.popup_number_screen.text == '':
+            self.ids.popup_number_screen.text = '0'
+
+    def press_clear(self):
+        self.ids.popup_number_screen.text = '0'
+
+
 class LoadingScreen(Screen):
     pass
 
@@ -50,14 +114,33 @@ class MainScreen(Screen):
     global version
     droppiversion = f'DropPi v.{version} - A droplet photography controller'
 
-    def text_focused(self):
+    def text_focused(self, instance, value):
         # TODO: Fix a custom numeric keyboard so that we can place
         #   it wherever we want on the screen. The Kivy 2.0 vKeyboard
         #   is not easy to place
-        VKeyboard.layout = 'numeric.json'
-        VKeyboard.background_color = [1, 1, 1, 1]
-        VKeyboard.key_margin = [1, 1, 1, 1]
-        # player = VKeyboard()
+        if value:
+            print(str(instance))
+            print(instance.text)
+            print(self.get_id(instance))
+            app = App.get_running_app()
+            app.num_value = instance.text
+            app.instance_selected = instance
+            app.instance_selected_string = self.get_id(instance)
+            mypopup = NumKeyboardPopup()
+            mypopup.open()
+
+
+    def get_id(self, instance):
+        # for id, widget in instance.parent.ids.items():
+        for id, widget in self.ids.items():
+            if widget.__self__ == instance:
+                return id
+
+    def get_instance(self, id):
+        # for id, widget in instance.parent.ids.items():
+        for instance, widget in self.ids.items():
+            if widget.__self__ == instance:
+                return instance
 
     # VALVE TOGGLES (ROW TOGGLES)
     def press_valvetoggle1callback(self):
@@ -452,446 +535,446 @@ class MainScreen(Screen):
     # ROW 1 MINUS BUTTONS
     def press_v1d1on_min(self, longpress):
         if not longpress:
-            self.ids.v1d1on_val.text = str(int(self.ids.v1d1on_val.text) - 1)
+            self.ids.v1d1on_val.text = format_number(str(float(self.ids.v1d1on_val.text) - 1))
         else:
-            self.ids.v1d1on_val.text = str(int(self.ids.v1d1on_val.text) - 10)
+            self.ids.v1d1on_val.text = format_number(str(float(self.ids.v1d1on_val.text) - 10))
 
     def press_v1d2on_min(self, longpress):
         if not longpress:
-            self.ids.v1d2on_val.text = str(int(self.ids.v1d2on_val.text) - 1)
+            self.ids.v1d2on_val.text = format_number(str(float(self.ids.v1d2on_val.text) - 1))
         else:
-            self.ids.v1d2on_val.text = str(int(self.ids.v1d2on_val.text) - 10)
+            self.ids.v1d2on_val.text = format_number(str(float(self.ids.v1d2on_val.text) - 10))
 
     def press_v1d3on_min(self, longpress):
         if not longpress:
-            self.ids.v1d3on_val.text = str(int(self.ids.v1d3on_val.text) - 1)
+            self.ids.v1d3on_val.text = format_number(str(float(self.ids.v1d3on_val.text) - 1))
         else:
-            self.ids.v1d3on_val.text = str(int(self.ids.v1d3on_val.text) - 10)
+            self.ids.v1d3on_val.text = format_number(str(float(self.ids.v1d3on_val.text) - 10))
 
     def press_v1d4on_min(self, longpress):
         if not longpress:
-            self.ids.v1d4on_val.text = str(int(self.ids.v1d4on_val.text) - 1)
+            self.ids.v1d4on_val.text = format_number(str(float(self.ids.v1d4on_val.text) - 1))
         else:
-            self.ids.v1d4on_val.text = str(int(self.ids.v1d4on_val.text) - 10)
+            self.ids.v1d4on_val.text = format_number(str(float(self.ids.v1d4on_val.text) - 10))
 
     def press_v1d1off_min(self, longpress):
         if not longpress:
-            self.ids.v1d1off_val.text = str(int(self.ids.v1d1off_val.text) - 1)
+            self.ids.v1d1off_val.text = format_number(str(float(self.ids.v1d1off_val.text) - 1))
         else:
-            self.ids.v1d1off_val.text = str(int(self.ids.v1d1off_val.text) - 10)
+            self.ids.v1d1off_val.text = format_number(str(float(self.ids.v1d1off_val.text) - 10))
 
     def press_v1d2off_min(self, longpress):
         if not longpress:
-            self.ids.v1d2off_val.text = str(int(self.ids.v1d2off_val.text) - 1)
+            self.ids.v1d2off_val.text = format_number(str(float(self.ids.v1d2off_val.text) - 1))
         else:
-            self.ids.v1d2off_val.text = str(int(self.ids.v1d2off_val.text) - 10)
+            self.ids.v1d2off_val.text = format_number(str(float(self.ids.v1d2off_val.text) - 10))
 
     def press_v1d3off_min(self, longpress):
         if not longpress:
-            self.ids.v1d3off_val.text = str(int(self.ids.v1d3off_val.text) - 1)
+            self.ids.v1d3off_val.text = format_number(str(float(self.ids.v1d3off_val.text) - 1))
         else:
-            self.ids.v1d3off_val.text = str(int(self.ids.v1d3off_val.text) - 10)
+            self.ids.v1d3off_val.text = format_number(str(float(self.ids.v1d3off_val.text) - 10))
 
     def press_v1d4off_min(self, longpress):
         if not longpress:
-            self.ids.v1d4off_val.text = str(int(self.ids.v1d4off_val.text) - 1)
+            self.ids.v1d4off_val.text = format_number(str(float(self.ids.v1d4off_val.text) - 1))
         else:
-            self.ids.v1d4off_val.text = str(int(self.ids.v1d4off_val.text) - 10)
+            self.ids.v1d4off_val.text = format_number(str(float(self.ids.v1d4off_val.text) - 10))
 
     # ROW 2 MINUS BUTTONS
     def press_v2d1on_min(self, longpress):
         if not longpress:
-            self.ids.v2d1on_val.text = str(int(self.ids.v2d1on_val.text) - 1)
+            self.ids.v2d1on_val.text = format_number(str(float(self.ids.v2d1on_val.text) - 1))
         else:
-            self.ids.v2d1on_val.text = str(int(self.ids.v2d1on_val.text) - 10)
+            self.ids.v2d1on_val.text = format_number(str(float(self.ids.v2d1on_val.text) - 10))
 
     def press_v2d2on_min(self, longpress):
         if not longpress:
-            self.ids.v2d2on_val.text = str(int(self.ids.v2d2on_val.text) - 1)
+            self.ids.v2d2on_val.text = format_number(str(float(self.ids.v2d2on_val.text) - 1))
         else:
-            self.ids.v2d2on_val.text = str(int(self.ids.v2d2on_val.text) - 10)
+            self.ids.v2d2on_val.text = format_number(str(float(self.ids.v2d2on_val.text) - 10))
 
     def press_v2d3on_min(self, longpress):
         if not longpress:
-            self.ids.v2d3on_val.text = str(int(self.ids.v2d3on_val.text) - 1)
+            self.ids.v2d3on_val.text = format_number(str(float(self.ids.v2d3on_val.text) - 1))
         else:
-            self.ids.v2d3on_val.text = str(int(self.ids.v2d3on_val.text) - 10)
+            self.ids.v2d3on_val.text = format_number(str(float(self.ids.v2d3on_val.text) - 10))
 
     def press_v2d4on_min(self, longpress):
         if not longpress:
-            self.ids.v2d4on_val.text = str(int(self.ids.v2d4on_val.text) - 1)
+            self.ids.v2d4on_val.text = format_number(str(float(self.ids.v2d4on_val.text) - 1))
         else:
-            self.ids.v2d4on_val.text = str(int(self.ids.v2d4on_val.text) - 10)
+            self.ids.v2d4on_val.text = format_number(str(float(self.ids.v2d4on_val.text) - 10))
 
     def press_v2d1off_min(self, longpress):
         if not longpress:
-            self.ids.v2d1off_val.text = str(int(self.ids.v2d1off_val.text) - 1)
+            self.ids.v2d1off_val.text = format_number(str(float(self.ids.v2d1off_val.text) - 1))
         else:
-            self.ids.v2d1off_val.text = str(int(self.ids.v2d1off_val.text) - 10)
+            self.ids.v2d1off_val.text = format_number(str(float(self.ids.v2d1off_val.text) - 10))
 
     def press_v2d2off_min(self, longpress):
         if not longpress:
-            self.ids.v2d2off_val.text = str(int(self.ids.v2d2off_val.text) - 1)
+            self.ids.v2d2off_val.text = format_number(str(float(self.ids.v2d2off_val.text) - 1))
         else:
-            self.ids.v2d2off_val.text = str(int(self.ids.v2d2off_val.text) - 10)
+            self.ids.v2d2off_val.text = format_number(str(float(self.ids.v2d2off_val.text) - 10))
 
     def press_v2d3off_min(self, longpress):
         if not longpress:
-            self.ids.v2d3off_val.text = str(int(self.ids.v2d3off_val.text) - 1)
+            self.ids.v2d3off_val.text = format_number(str(float(self.ids.v2d3off_val.text) - 1))
         else:
-            self.ids.v2d3off_val.text = str(int(self.ids.v2d3off_val.text) - 10)
+            self.ids.v2d3off_val.text = format_number(str(float(self.ids.v2d3off_val.text) - 10))
 
     def press_v2d4off_min(self, longpress):
         if not longpress:
-            self.ids.v2d4off_val.text = str(int(self.ids.v2d4off_val.text) - 1)
+            self.ids.v2d4off_val.text = format_number(str(float(self.ids.v2d4off_val.text) - 1))
         else:
-            self.ids.v2d4off_val.text = str(int(self.ids.v2d4off_val.text) - 10)
+            self.ids.v2d4off_val.text = format_number(str(float(self.ids.v2d4off_val.text) - 10))
 
     # ROW 3 MINUS BUTTONS
     def press_v3d1on_min(self, longpress):
         if not longpress:
-            self.ids.v3d1on_val.text = str(int(self.ids.v3d1on_val.text) - 1)
+            self.ids.v3d1on_val.text = format_number(str(float(self.ids.v3d1on_val.text) - 1))
         else:
-            self.ids.v3d1on_val.text = str(int(self.ids.v3d1on_val.text) - 10)
+            self.ids.v3d1on_val.text = format_number(str(float(self.ids.v3d1on_val.text) - 10))
 
     def press_v3d2on_min(self, longpress):
         if not longpress:
-            self.ids.v3d2on_val.text = str(int(self.ids.v3d2on_val.text) - 1)
+            self.ids.v3d2on_val.text = format_number(str(float(self.ids.v3d2on_val.text) - 1))
         else:
-            self.ids.v3d2on_val.text = str(int(self.ids.v3d2on_val.text) - 10)
+            self.ids.v3d2on_val.text = format_number(str(float(self.ids.v3d2on_val.text) - 10))
 
     def press_v3d3on_min(self, longpress):
         if not longpress:
-            self.ids.v3d3on_val.text = str(int(self.ids.v3d3on_val.text) - 1)
+            self.ids.v3d3on_val.text = format_number(str(float(self.ids.v3d3on_val.text) - 1))
         else:
-            self.ids.v3d3on_val.text = str(int(self.ids.v3d3on_val.text) - 10)
+            self.ids.v3d3on_val.text = format_number(str(float(self.ids.v3d3on_val.text) - 10))
 
     def press_v3d4on_min(self, longpress):
         if not longpress:
-            self.ids.v3d4on_val.text = str(int(self.ids.v3d4on_val.text) - 1)
+            self.ids.v3d4on_val.text = format_number(str(float(self.ids.v3d4on_val.text) - 1))
         else:
-            self.ids.v3d4on_val.text = str(int(self.ids.v3d4on_val.text) - 10)
+            self.ids.v3d4on_val.text = format_number(str(float(self.ids.v3d4on_val.text) - 10))
 
     def press_v3d1off_min(self, longpress):
         if not longpress:
-            self.ids.v3d1off_val.text = str(int(self.ids.v3d1off_val.text) - 1)
+            self.ids.v3d1off_val.text = format_number(str(float(self.ids.v3d1off_val.text) - 1))
         else:
-            self.ids.v3d1off_val.text = str(int(self.ids.v3d1off_val.text) - 10)
+            self.ids.v3d1off_val.text = format_number(str(float(self.ids.v3d1off_val.text) - 10))
 
     def press_v3d2off_min(self, longpress):
         if not longpress:
-            self.ids.v3d2off_val.text = str(int(self.ids.v3d2off_val.text) - 1)
+            self.ids.v3d2off_val.text = format_number(str(float(self.ids.v3d2off_val.text) - 1))
         else:
-            self.ids.v3d2off_val.text = str(int(self.ids.v3d2off_val.text) - 10)
+            self.ids.v3d2off_val.text = format_number(str(float(self.ids.v3d2off_val.text) - 10))
 
     def press_v3d3off_min(self, longpress):
         if not longpress:
-            self.ids.v3d3off_val.text = str(int(self.ids.v3d3off_val.text) - 1)
+            self.ids.v3d3off_val.text = format_number(str(float(self.ids.v3d3off_val.text) - 1))
         else:
-            self.ids.v3d3off_val.text = str(int(self.ids.v3d3off_val.text) - 10)
+            self.ids.v3d3off_val.text = format_number(str(float(self.ids.v3d3off_val.text) - 10))
 
     def press_v3d4off_min(self, longpress):
         if not longpress:
-            self.ids.v3d4off_val.text = str(int(self.ids.v3d4off_val.text) - 1)
+            self.ids.v3d4off_val.text = format_number(str(float(self.ids.v3d4off_val.text) - 1))
         else:
-            self.ids.v3d4off_val.text = str(int(self.ids.v3d4off_val.text) - 10)
+            self.ids.v3d4off_val.text = format_number(str(float(self.ids.v3d4off_val.text) - 10))
 
     # ROW 4 MINUS BUTTONS
     def press_v4d1on_min(self, longpress):
         if not longpress:
-            self.ids.v4d1on_val.text = str(int(self.ids.v4d1on_val.text) - 1)
+            self.ids.v4d1on_val.text = format_number(str(float(self.ids.v4d1on_val.text) - 1))
         else:
-            self.ids.v4d1on_val.text = str(int(self.ids.v4d1on_val.text) - 10)
+            self.ids.v4d1on_val.text = format_number(str(float(self.ids.v4d1on_val.text) - 10))
 
     def press_v4d2on_min(self, longpress):
         if not longpress:
-            self.ids.v4d2on_val.text = str(int(self.ids.v4d2on_val.text) - 1)
+            self.ids.v4d2on_val.text = format_number(str(float(self.ids.v4d2on_val.text) - 1))
         else:
-            self.ids.v4d2on_val.text = str(int(self.ids.v4d2on_val.text) - 10)
+            self.ids.v4d2on_val.text = format_number(str(float(self.ids.v4d2on_val.text) - 10))
 
     def press_v4d3on_min(self, longpress):
         if not longpress:
-            self.ids.v4d3on_val.text = str(int(self.ids.v4d3on_val.text) - 1)
+            self.ids.v4d3on_val.text = format_number(str(float(self.ids.v4d3on_val.text) - 1))
         else:
-            self.ids.v4d3on_val.text = str(int(self.ids.v4d3on_val.text) - 10)
+            self.ids.v4d3on_val.text = format_number(str(float(self.ids.v4d3on_val.text) - 10))
 
     def press_v4d4on_min(self, longpress):
         if not longpress:
-            self.ids.v4d4on_val.text = str(int(self.ids.v4d4on_val.text) - 1)
+            self.ids.v4d4on_val.text = format_number(str(float(self.ids.v4d4on_val.text) - 1))
         else:
-            self.ids.v4d4on_val.text = str(int(self.ids.v4d4on_val.text) - 10)
+            self.ids.v4d4on_val.text = format_number(str(float(self.ids.v4d4on_val.text) - 10))
 
     def press_v4d1off_min(self, longpress):
         if not longpress:
-            self.ids.v4d1off_val.text = str(int(self.ids.v4d1off_val.text) - 1)
+            self.ids.v4d1off_val.text = format_number(str(float(self.ids.v4d1off_val.text) - 1))
         else:
-            self.ids.v4d1off_val.text = str(int(self.ids.v4d1off_val.text) - 10)
+            self.ids.v4d1off_val.text = format_number(str(float(self.ids.v4d1off_val.text) - 10))
 
     def press_v4d2off_min(self, longpress):
         if not longpress:
-            self.ids.v4d2off_val.text = str(int(self.ids.v4d2off_val.text) - 1)
+            self.ids.v4d2off_val.text = format_number(str(float(self.ids.v4d2off_val.text) - 1))
         else:
-            self.ids.v4d2off_val.text = str(int(self.ids.v4d2off_val.text) - 10)
+            self.ids.v4d2off_val.text = format_number(str(float(self.ids.v4d2off_val.text) - 10))
 
     def press_v4d3off_min(self, longpress):
         if not longpress:
-            self.ids.v4d3off_val.text = str(int(self.ids.v4d3off_val.text) - 1)
+            self.ids.v4d3off_val.text = format_number(str(float(self.ids.v4d3off_val.text) - 1))
         else:
-            self.ids.v4d3off_val.text = str(int(self.ids.v4d3off_val.text) - 10)
+            self.ids.v4d3off_val.text = format_number(str(float(self.ids.v4d3off_val.text) - 10))
 
     def press_v4d4off_min(self, longpress):
         if not longpress:
-            self.ids.v4d4off_val.text = str(int(self.ids.v4d4off_val.text) - 1)
+            self.ids.v4d4off_val.text = format_number(str(float(self.ids.v4d4off_val.text) - 1))
         else:
-            self.ids.v4d4off_val.text = str(int(self.ids.v4d4off_val.text) - 10)
+            self.ids.v4d4off_val.text = format_number(str(float(self.ids.v4d4off_val.text) - 10))
 
     # CAMERA MINUS BUTTONS
     def press_camon_min(self, longpress):
         if not longpress:
-            self.ids.camon_val.text = str(int(self.ids.camon_val.text) - 1)
+            self.ids.camon_val.text = format_number(str(float(self.ids.camon_val.text) - 1))
         else:
-            self.ids.camon_val.text = str(int(self.ids.camon_val.text) - 10)
+            self.ids.camon_val.text = format_number(str(float(self.ids.camon_val.text) - 10))
 
     def press_camoff_min(self, longpress):
         if not longpress:
-            self.ids.camoff_val.text = str(int(self.ids.camoff_val.text) - 1)
+            self.ids.camoff_val.text = format_number(str(float(self.ids.camoff_val.text) - 1))
         else:
-            self.ids.camoff_val.text = str(int(self.ids.camoff_val.text) - 10)
+            self.ids.camoff_val.text = format_number(str(float(self.ids.camoff_val.text) - 10))
 
     # FLASH MINUS BUTTONS
     def press_flashon_min(self, longpress):
         if not longpress:
-            self.ids.flashon_val.text = str(int(self.ids.flashon_val.text) - 1)
+            self.ids.flashon_val.text = format_number(str(float(self.ids.flashon_val.text) - 1))
         else:
-            self.ids.flashon_val.text = str(int(self.ids.flashon_val.text) - 10)
+            self.ids.flashon_val.text = format_number(str(float(self.ids.flashon_val.text) - 10))
 
     def press_flashoff_min(self, longpress):
         if not longpress:
-            self.ids.flashoff_val.text = str(int(self.ids.flashoff_val.text) - 1)
+            self.ids.flashoff_val.text = format_number(str(float(self.ids.flashoff_val.text) - 1))
         else:
-            self.ids.flashoff_val.text = str(int(self.ids.flashoff_val.text) - 10)
+            self.ids.flashoff_val.text = format_number(str(float(self.ids.flashoff_val.text) - 10))
 
     # ROW 1 PLUS BUTTONS
     def press_v1d1on_plus(self, longpress):
         if not longpress:
-            self.ids.v1d1on_val.text = str(int(self.ids.v1d1on_val.text) + 1)
+            self.ids.v1d1on_val.text = format_number(str(float(self.ids.v1d1on_val.text) + 1))
         else:
-            self.ids.v1d1on_val.text = str(int(self.ids.v1d1on_val.text) + 10)
+            self.ids.v1d1on_val.text = format_number(str(float(self.ids.v1d1on_val.text) + 10))
 
     def press_v1d2on_plus(self, longpress):
         if not longpress:
-            self.ids.v1d2on_val.text = str(int(self.ids.v1d2on_val.text) + 1)
+            self.ids.v1d2on_val.text = format_number(str(float(self.ids.v1d2on_val.text) + 1))
         else:
-            self.ids.v1d2on_val.text = str(int(self.ids.v1d2on_val.text) + 10)
+            self.ids.v1d2on_val.text = format_number(str(float(self.ids.v1d2on_val.text) + 10))
 
     def press_v1d3on_plus(self, longpress):
         if not longpress:
-            self.ids.v1d3on_val.text = str(int(self.ids.v1d3on_val.text) + 1)
+            self.ids.v1d3on_val.text = format_number(str(float(self.ids.v1d3on_val.text) + 1))
         else:
-            self.ids.v1d3on_val.text = str(int(self.ids.v1d3on_val.text) + 10)
+            self.ids.v1d3on_val.text = format_number(str(float(self.ids.v1d3on_val.text) + 10))
 
     def press_v1d4on_plus(self, longpress):
         if not longpress:
-            self.ids.v1d4on_val.text = str(int(self.ids.v1d4on_val.text) + 1)
+            self.ids.v1d4on_val.text = format_number(str(float(self.ids.v1d4on_val.text) + 1))
         else:
-            self.ids.v1d4on_val.text = str(int(self.ids.v1d4on_val.text) + 10)
+            self.ids.v1d4on_val.text = format_number(str(float(self.ids.v1d4on_val.text) + 10))
 
     def press_v1d1off_plus(self, longpress):
         if not longpress:
-            self.ids.v1d1off_val.text = str(int(self.ids.v1d1off_val.text) + 1)
+            self.ids.v1d1off_val.text = format_number(str(float(self.ids.v1d1off_val.text) + 1))
         else:
-            self.ids.v1d1off_val.text = str(int(self.ids.v1d1off_val.text) + 10)
+            self.ids.v1d1off_val.text = format_number(str(float(self.ids.v1d1off_val.text) + 10))
 
     def press_v1d2off_plus(self, longpress):
         if not longpress:
-            self.ids.v1d2off_val.text = str(int(self.ids.v1d2off_val.text) + 1)
+            self.ids.v1d2off_val.text = format_number(str(float(self.ids.v1d2off_val.text) + 1))
         else:
-            self.ids.v1d2off_val.text = str(int(self.ids.v1d2off_val.text) + 10)
+            self.ids.v1d2off_val.text = format_number(str(float(self.ids.v1d2off_val.text) + 10))
 
     def press_v1d3off_plus(self, longpress):
         if not longpress:
-            self.ids.v1d3off_val.text = str(int(self.ids.v1d3off_val.text) + 1)
+            self.ids.v1d3off_val.text = format_number(str(float(self.ids.v1d3off_val.text) + 1))
         else:
-            self.ids.v1d3off_val.text = str(int(self.ids.v1d3off_val.text) + 10)
+            self.ids.v1d3off_val.text = format_number(str(float(self.ids.v1d3off_val.text) + 10))
 
     def press_v1d4off_plus(self, longpress):
         if not longpress:
-            self.ids.v1d4off_val.text = str(int(self.ids.v1d4off_val.text) + 1)
+            self.ids.v1d4off_val.text = format_number(str(float(self.ids.v1d4off_val.text) + 1))
         else:
-            self.ids.v1d4off_val.text = str(int(self.ids.v1d4off_val.text) + 10)
+            self.ids.v1d4off_val.text = format_number(str(float(self.ids.v1d4off_val.text) + 10))
 
     # ROW 2 PLUS BUTTONS
     def press_v2d1on_plus(self, longpress):
         if not longpress:
-            self.ids.v2d1on_val.text = str(int(self.ids.v2d1on_val.text) + 1)
+            self.ids.v2d1on_val.text = format_number(str(float(self.ids.v2d1on_val.text) + 1))
         else:
-            self.ids.v2d1on_val.text = str(int(self.ids.v2d1on_val.text) + 10)
+            self.ids.v2d1on_val.text = format_number(str(float(self.ids.v2d1on_val.text) + 10))
 
     def press_v2d2on_plus(self, longpress):
         if not longpress:
-            self.ids.v2d2on_val.text = str(int(self.ids.v2d2on_val.text) + 1)
+            self.ids.v2d2on_val.text = format_number(str(float(self.ids.v2d2on_val.text) + 1))
         else:
-            self.ids.v2d2on_val.text = str(int(self.ids.v2d2on_val.text) + 10)
+            self.ids.v2d2on_val.text = format_number(str(float(self.ids.v2d2on_val.text) + 10))
 
     def press_v2d3on_plus(self, longpress):
         if not longpress:
-            self.ids.v2d3on_val.text = str(int(self.ids.v2d3on_val.text) + 1)
+            self.ids.v2d3on_val.text = format_number(str(float(self.ids.v2d3on_val.text) + 1))
         else:
-            self.ids.v2d3on_val.text = str(int(self.ids.v2d3on_val.text) + 10)
+            self.ids.v2d3on_val.text = format_number(str(float(self.ids.v2d3on_val.text) + 10))
 
     def press_v2d4on_plus(self, longpress):
         if not longpress:
-            self.ids.v2d4on_val.text = str(int(self.ids.v2d4on_val.text) + 1)
+            self.ids.v2d4on_val.text = format_number(str(float(self.ids.v2d4on_val.text) + 1))
         else:
-            self.ids.v2d4on_val.text = str(int(self.ids.v2d4on_val.text) + 10)
+            self.ids.v2d4on_val.text = format_number(str(float(self.ids.v2d4on_val.text) + 10))
 
     def press_v2d1off_plus(self, longpress):
         if not longpress:
-            self.ids.v2d1off_val.text = str(int(self.ids.v2d1off_val.text) + 1)
+            self.ids.v2d1off_val.text = format_number(str(float(self.ids.v2d1off_val.text) + 1))
         else:
-            self.ids.v2d1off_val.text = str(int(self.ids.v2d1off_val.text) + 10)
+            self.ids.v2d1off_val.text = format_number(str(float(self.ids.v2d1off_val.text) + 10))
 
     def press_v2d2off_plus(self, longpress):
         if not longpress:
-            self.ids.v2d2off_val.text = str(int(self.ids.v2d2off_val.text) + 1)
+            self.ids.v2d2off_val.text = format_number(str(float(self.ids.v2d2off_val.text) + 1))
         else:
-            self.ids.v2d2off_val.text = str(int(self.ids.v2d2off_val.text) + 10)
+            self.ids.v2d2off_val.text = format_number(str(float(self.ids.v2d2off_val.text) + 10))
 
     def press_v2d3off_plus(self, longpress):
         if not longpress:
-            self.ids.v2d3off_val.text = str(int(self.ids.v2d3off_val.text) + 1)
+            self.ids.v2d3off_val.text = format_number(str(float(self.ids.v2d3off_val.text) + 1))
         else:
-            self.ids.v2d3off_val.text = str(int(self.ids.v2d3off_val.text) + 10)
+            self.ids.v2d3off_val.text = format_number(str(float(self.ids.v2d3off_val.text) + 10))
 
     def press_v2d4off_plus(self, longpress):
         if not longpress:
-            self.ids.v2d4off_val.text = str(int(self.ids.v2d4off_val.text) + 1)
+            self.ids.v2d4off_val.text = format_number(str(float(self.ids.v2d4off_val.text) + 1))
         else:
-            self.ids.v2d4off_val.text = str(int(self.ids.v2d4off_val.text) + 10)
+            self.ids.v2d4off_val.text = format_number(str(float(self.ids.v2d4off_val.text) + 10))
 
     # ROW 3 PLUS BUTTONS
     def press_v3d1on_plus(self, longpress):
         if not longpress:
-            self.ids.v3d1on_val.text = str(int(self.ids.v3d1on_val.text) + 1)
+            self.ids.v3d1on_val.text = format_number(str(float(self.ids.v3d1on_val.text) + 1))
         else:
-            self.ids.v3d1on_val.text = str(int(self.ids.v3d1on_val.text) + 10)
+            self.ids.v3d1on_val.text = format_number(str(float(self.ids.v3d1on_val.text) + 10))
 
     def press_v3d2on_plus(self, longpress):
         if not longpress:
-            self.ids.v3d2on_val.text = str(int(self.ids.v3d2on_val.text) + 1)
+            self.ids.v3d2on_val.text = format_number(str(float(self.ids.v3d2on_val.text) + 1))
         else:
-            self.ids.v3d2on_val.text = str(int(self.ids.v3d2on_val.text) + 10)
+            self.ids.v3d2on_val.text = format_number(str(float(self.ids.v3d2on_val.text) + 10))
 
     def press_v3d3on_plus(self, longpress):
         if not longpress:
-            self.ids.v3d3on_val.text = str(int(self.ids.v3d3on_val.text) + 1)
+            self.ids.v3d3on_val.text = format_number(str(float(self.ids.v3d3on_val.text) + 1))
         else:
-            self.ids.v3d3on_val.text = str(int(self.ids.v3d3on_val.text) + 10)
+            self.ids.v3d3on_val.text = format_number(str(float(self.ids.v3d3on_val.text) + 10))
 
     def press_v3d4on_plus(self, longpress):
         if not longpress:
-            self.ids.v3d4on_val.text = str(int(self.ids.v3d4on_val.text) + 1)
+            self.ids.v3d4on_val.text = format_number(str(float(self.ids.v3d4on_val.text) + 1))
         else:
-            self.ids.v3d4on_val.text = str(int(self.ids.v3d4on_val.text) + 10)
+            self.ids.v3d4on_val.text = format_number(str(float(self.ids.v3d4on_val.text) + 10))
 
     def press_v3d1off_plus(self, longpress):
         if not longpress:
-            self.ids.v3d1off_val.text = str(int(self.ids.v3d1off_val.text) + 1)
+            self.ids.v3d1off_val.text = format_number(str(float(self.ids.v3d1off_val.text) + 1))
         else:
-            self.ids.v3d1off_val.text = str(int(self.ids.v3d1off_val.text) + 10)
+            self.ids.v3d1off_val.text = format_number(str(float(self.ids.v3d1off_val.text) + 10))
 
     def press_v3d2off_plus(self, longpress):
         if not longpress:
-            self.ids.v3d2off_val.text = str(int(self.ids.v3d2off_val.text) + 1)
+            self.ids.v3d2off_val.text = format_number(str(float(self.ids.v3d2off_val.text) + 1))
         else:
-            self.ids.v3d2off_val.text = str(int(self.ids.v3d2off_val.text) + 10)
+            self.ids.v3d2off_val.text = format_number(str(float(self.ids.v3d2off_val.text) + 10))
 
     def press_v3d3off_plus(self, longpress):
         if not longpress:
-            self.ids.v3d3off_val.text = str(int(self.ids.v3d3off_val.text) + 1)
+            self.ids.v3d3off_val.text = format_number(str(float(self.ids.v3d3off_val.text) + 1))
         else:
-            self.ids.v3d3off_val.text = str(int(self.ids.v3d3off_val.text) + 10)
+            self.ids.v3d3off_val.text = format_number(str(float(self.ids.v3d3off_val.text) + 10))
 
     def press_v3d4off_plus(self, longpress):
         if not longpress:
-            self.ids.v3d4off_val.text = str(int(self.ids.v3d4off_val.text) + 1)
+            self.ids.v3d4off_val.text = format_number(str(float(self.ids.v3d4off_val.text) + 1))
         else:
-            self.ids.v3d4off_val.text = str(int(self.ids.v3d4off_val.text) + 10)
+            self.ids.v3d4off_val.text = format_number(str(float(self.ids.v3d4off_val.text) + 10))
 
     # ROW 4 PLUS BUTTONS
     def press_v4d1on_plus(self, longpress):
         if not longpress:
-            self.ids.v4d1on_val.text = str(int(self.ids.v4d1on_val.text) + 1)
+            self.ids.v4d1on_val.text = format_number(str(float(self.ids.v4d1on_val.text) + 1))
         else:
-            self.ids.v4d1on_val.text = str(int(self.ids.v4d1on_val.text) + 10)
+            self.ids.v4d1on_val.text = format_number(str(float(self.ids.v4d1on_val.text) + 10))
 
     def press_v4d2on_plus(self, longpress):
         if not longpress:
-            self.ids.v4d2on_val.text = str(int(self.ids.v4d2on_val.text) + 1)
+            self.ids.v4d2on_val.text = format_number(str(float(self.ids.v4d2on_val.text) + 1))
         else:
-            self.ids.v4d2on_val.text = str(int(self.ids.v4d2on_val.text) + 10)
+            self.ids.v4d2on_val.text = format_number(str(float(self.ids.v4d2on_val.text) + 10))
 
     def press_v4d3on_plus(self, longpress):
         if not longpress:
-            self.ids.v4d3on_val.text = str(int(self.ids.v4d3on_val.text) + 1)
+            self.ids.v4d3on_val.text = format_number(str(float(self.ids.v4d3on_val.text) + 1))
         else:
-            self.ids.v4d3on_val.text = str(int(self.ids.v4d3on_val.text) + 10)
+            self.ids.v4d3on_val.text = format_number(str(float(self.ids.v4d3on_val.text) + 10))
 
     def press_v4d4on_plus(self, longpress):
         if not longpress:
-            self.ids.v4d4on_val.text = str(int(self.ids.v4d4on_val.text) + 1)
+            self.ids.v4d4on_val.text = format_number(str(float(self.ids.v4d4on_val.text) + 1))
         else:
-            self.ids.v4d4on_val.text = str(int(self.ids.v4d4on_val.text) + 10)
+            self.ids.v4d4on_val.text = format_number(str(float(self.ids.v4d4on_val.text) + 10))
 
     def press_v4d1off_plus(self, longpress):
         if not longpress:
-            self.ids.v4d1off_val.text = str(int(self.ids.v4d1off_val.text) + 1)
+            self.ids.v4d1off_val.text = format_number(str(float(self.ids.v4d1off_val.text) + 1))
         else:
-            self.ids.v4d1off_val.text = str(int(self.ids.v4d1off_val.text) + 10)
+            self.ids.v4d1off_val.text = format_number(str(float(self.ids.v4d1off_val.text) + 10))
 
     def press_v4d2off_plus(self, longpress):
         if not longpress:
-            self.ids.v4d2off_val.text = str(int(self.ids.v4d2off_val.text) + 1)
+            self.ids.v4d2off_val.text = format_number(str(float(self.ids.v4d2off_val.text) + 1))
         else:
-            self.ids.v4d2off_val.text = str(int(self.ids.v4d2off_val.text) + 10)
+            self.ids.v4d2off_val.text = format_number(str(float(self.ids.v4d2off_val.text) + 10))
 
     def press_v4d3off_plus(self, longpress):
         if not longpress:
-            self.ids.v4d3off_val.text = str(int(self.ids.v4d3off_val.text) + 1)
+            self.ids.v4d3off_val.text = format_number(str(float(self.ids.v4d3off_val.text) + 1))
         else:
-            self.ids.v4d3off_val.text = str(int(self.ids.v4d3off_val.text) + 10)
+            self.ids.v4d3off_val.text = format_number(str(float(self.ids.v4d3off_val.text) + 10))
 
     def press_v4d4off_plus(self, longpress):
         if not longpress:
-            self.ids.v4d4off_val.text = str(int(self.ids.v4d4off_val.text) + 1)
+            self.ids.v4d4off_val.text = format_number(str(float(self.ids.v4d4off_val.text) + 1))
         else:
-            self.ids.v4d4off_val.text = str(int(self.ids.v4d4off_val.text) + 10)
+            self.ids.v4d4off_val.text = format_number(str(float(self.ids.v4d4off_val.text) + 10))
 
     # CAMERA PLUS BUTTONS
     def press_camon_plus(self, longpress):
         if not longpress:
-            self.ids.camon_val.text = str(int(self.ids.camon_val.text) + 1)
+            self.ids.camon_val.text = format_number(str(float(self.ids.camon_val.text) + 1))
         else:
-            self.ids.camon_val.text = str(int(self.ids.camon_val.text) + 10)
+            self.ids.camon_val.text = format_number(str(float(self.ids.camon_val.text) + 10))
 
     def press_camoff_plus(self, longpress):
         if not longpress:
-            self.ids.camoff_val.text = str(int(self.ids.camoff_val.text) + 1)
+            self.ids.camoff_val.text = format_number(str(float(self.ids.camoff_val.text) + 1))
         else:
-            self.ids.camoff_val.text = str(int(self.ids.camoff_val.text) + 10)
+            self.ids.camoff_val.text = format_number(str(float(self.ids.camoff_val.text) + 10))
 
     # FLASH PLUS BUTTONS
     def press_flashon_plus(self, longpress):
         if not longpress:
-            self.ids.flashon_val.text = str(int(self.ids.flashon_val.text) + 1)
+            self.ids.flashon_val.text = format_number(str(float(self.ids.flashon_val.text) + 1))
         else:
-            self.ids.flashon_val.text = str(int(self.ids.flashon_val.text) + 10)
+            self.ids.flashon_val.text = format_number(str(float(self.ids.flashon_val.text) + 10))
 
     def press_flashoff_plus(self, longpress):
         if not longpress:
-            self.ids.flashoff_val.text = str(int(self.ids.flashoff_val.text) + 1)
+            self.ids.flashoff_val.text = format_number(str(float(self.ids.flashoff_val.text) + 1))
         else:
-            self.ids.flashoff_val.text = str(int(self.ids.flashoff_val.text) + 10)
+            self.ids.flashoff_val.text = format_number(str(float(self.ids.flashoff_val.text) + 10))
 
     # FIRE BUTTON CALLBACK
     def execute_sequence_callback(self):
@@ -1396,9 +1479,12 @@ class ScreenManagement(ScreenManager):
 
 
 class DropPiUIApp(App):
+    instance_selected_string = ''
+    instance_selected = None
+    num_value = 0
 
     def build(self):
-        Window.bind(on_request_close=self.on_request_close)
+        #Window.bind(on_request_close=self.on_request_close)
         self.initialize_global_vars()
         return ScreenManagement()
 
@@ -1409,31 +1495,9 @@ class DropPiUIApp(App):
     def exit(self):
         App.get_running_app().stop()
 
-    def on_request_close(self):
-        self.textpopup(title='Exit', text='Are you sure?')
-        return True
-
-    def textpopup(self, title='', text=''):
-        """Open the pop-up with the name.
-
-        :param title: title of the pop-up to open
-        :type title: str
-        :param text: main text of the pop-up to open
-        :type text: str
-        :rtype: None
-        """
-        self.box_popup = BoxLayout(orientation='vertical')
-        self.box_popup.add_widget(Label(text=text))
-        self.box_popup.add_widget(Button(
-            text="Yes",
-            on_press=DropPiUIApp.exit,
-            size_hint=(0.215, 0.075)))
-        self.box_popup.add_widget(Button(
-            text="No",
-            on_press=lambda *args: self.popup_exit.dismiss(),
-            size_hint=(0.215, 0.075)))
-        self.popup_exit = Popup(title=title, content=self.box_popup, size_hint=(None, None), size=(600, 300))
-        self.popup_exit.open()
+    ##def on_request_close(self):
+        # self.textpopup(title='Exit', text='Are you sure?')
+      #  return True
 
 
 if __name__ == "__main__":

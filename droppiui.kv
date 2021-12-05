@@ -1,4 +1,7 @@
 # File name: DropPiUI.kv
+#:import Popup kivy.uix.popup.Popup
+#:import Factory kivy.factory.Factory
+
 <ScreenManagement>:
     MainScreen:
         name: 'mainscreen'
@@ -18,6 +21,14 @@
     font_size: 22
     pos_hint: {'right': 1}
     #pos_hint: {'top': 1}
+    
+<NumButton@Button>:
+    text: '-'
+    size: 36, 36
+    size_hint: None, None
+    color: .6,.6,1,1
+    background_color: (38/255, 74/255, 180/255, 1)
+    font_size: 32
 
 <MinButton@LongpressButton>:
     id: minbutton
@@ -120,6 +131,104 @@
     width: 200
     size_hint_x: None
 
+<NumKeyboardPopup>:
+    title: ''
+    separator_height: 0
+    title_size: 0
+    #title_align: 'center'
+    auto_dismiss: True
+    size_hint: None, None
+    size: 132, 292
+    spacing: 0
+    #padding: [0, 0]
+    pos_hint: {'right': .9, 'top': .8}
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 0
+        # canvas:
+        #    Color:
+        #        rgba: 40 / 255., 70 / 255., 0 / 255., 1
+        #    Rectangle:
+        #        pos: self.pos
+        #        size: self.size
+        Label:
+            id: popup_number_screen
+            text: app.num_value
+            font_size: 22
+            bold: True
+            color: .1, .1, .1, 1
+            size_hint: 1, None
+            height: 22
+            canvas.before:
+                Color:
+                    rgba: .5, .5, .5, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+        Widget:
+            size_hint: None, None
+            width: self.width
+            height: 16
+        GridLayout:
+            cols: 3
+            rows: 4
+            spacing: 0
+            size_hint: None, None
+            height: 150
+            NumButton:
+                text: '7'
+                on_press: root.press_7()
+            NumButton:
+                text: '8'
+                on_press: root.press_8()
+            NumButton:
+                text: '9'
+                on_press: root.press_9()
+            NumButton:
+                text: '4'
+                on_press: root.press_4()
+            NumButton:
+                text: '5'
+                on_press: root.press_5()
+            NumButton:
+                text: '6'
+                on_press: root.press_6()
+            NumButton:
+                text: '1'
+                on_press: root.press_1()
+            NumButton:
+                text: '2'
+                on_press: root.press_2()
+            NumButton:
+                text: '3'
+                on_press: root.press_3()
+            NumButton:
+                text: '0'
+                on_press: root.press_0()
+            NumButton:
+                text: '.'
+                on_press: root.press_dot()
+            NumButton:
+                text: '\u2190'
+                font_name: "DejaVuSans.ttf"
+                on_press: root.press_backspace()
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 0
+            NumButton:
+                width: 72
+                text: '\u2713'
+                font_name: "DejaVuSans.ttf"
+                on_press: root.press_enter()
+            NumButton:
+                width: 36
+                text: 'C'
+                on_press: root.press_clear()
+        Widget:
+        #Label:
+        #    id: popup_label
+        #    text: '---'
+
 <LoadingScreen>:
     Image:
         source: 'droppi-logo-for-github.png'
@@ -185,7 +294,7 @@
                         on_long_press: root.press_v1d1on_min(True)
                     OnTextInput:
                         id: v1d1on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v1d1on_plus
                         on_press: root.press_v1d1on_plus(False)
@@ -202,7 +311,7 @@
                         on_long_press: root.press_v1d2on_min(True)
                     OnTextInput:
                         id: v1d2on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v1d2on_plus
                         on_press: root.press_v1d2on_plus(False)
@@ -219,7 +328,7 @@
                         on_long_press: root.press_v1d3on_min(True)
                     OnTextInput:
                         id: v1d3on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v1d3on_plus
                         on_press: root.press_v1d3on_plus(False)
@@ -236,7 +345,7 @@
                         on_long_press: root.press_v1d4on_min(True)
                     OnTextInput:
                         id: v1d4on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v1d4on_plus
                         on_press: root.press_v1d4on_plus(False)
@@ -294,7 +403,7 @@
                         on_long_press: root.press_v1d1off_min(True)
                     OffTextInput:
                         id: v1d1off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v1d1off_plus
                         on_press: root.press_v1d1off_plus(False)
@@ -311,7 +420,7 @@
                         on_long_press: root.press_v1d2off_min(True)
                     OffTextInput:
                         id: v1d2off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v1d2off_plus
                         on_press: root.press_v1d2off_plus(False)
@@ -328,7 +437,7 @@
                         on_long_press: root.press_v1d3off_min(True)
                     OffTextInput:
                         id: v1d3off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v1d3off_plus
                         on_press: root.press_v1d3off_plus(False)
@@ -345,7 +454,7 @@
                         on_long_press: root.press_v1d4off_min(True)
                     OffTextInput:
                         id: v1d4off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v1d4off_plus
                         on_press: root.press_v1d4off_plus(False)
@@ -402,7 +511,7 @@
                         on_long_press: root.press_v2d1on_min(True)
                     OnTextInput:
                         id: v2d1on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v2d1on_plus
                         on_press: root.press_v2d1on_plus(False)
@@ -419,7 +528,7 @@
                         on_long_press: root.press_v2d2on_min(True)
                     OnTextInput:
                         id: v2d2on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v2d2on_plus
                         on_press: root.press_v2d2on_plus(False)
@@ -436,7 +545,7 @@
                         on_long_press: root.press_v2d3on_min(True)
                     OnTextInput:
                         id: v2d3on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v2d3on_plus
                         on_press: root.press_v2d3on_plus(False)
@@ -453,7 +562,7 @@
                         on_long_press: root.press_v2d4on_min(True)
                     OnTextInput:
                         id: v2d4on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v2d4on_plus
                         on_press: root.press_v2d4on_plus(False)
@@ -514,7 +623,7 @@
                         on_long_press: root.press_v2d1off_min(True)
                     OffTextInput:
                         id: v2d1off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v2d1off_plus
                         on_press: root.press_v2d1off_plus(False)
@@ -531,7 +640,7 @@
                         on_long_press: root.press_v2d2off_min(True)
                     OffTextInput:
                         id: v2d2off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v2d2off_plus
                         on_press: root.press_v2d2off_plus(False)
@@ -548,7 +657,7 @@
                         on_long_press: root.press_v2d3off_min(True)
                     OffTextInput:
                         id: v2d3off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v2d3off_plus
                         on_press: root.press_v2d3off_plus(False)
@@ -565,7 +674,7 @@
                         on_long_press: root.press_v2d4off_min(True)
                     OffTextInput:
                         id: v2d4off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v2d4off_plus
                         on_press: root.press_v2d4off_plus(False)
@@ -622,7 +731,7 @@
                         on_long_press: root.press_v3d1on_min(True)
                     OnTextInput:
                         id: v3d1on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v3d1on_plus
                         on_press: root.press_v3d1on_plus(False)
@@ -639,7 +748,7 @@
                         on_long_press: root.press_v3d2on_min(True)
                     OnTextInput:
                         id: v3d2on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v3d2on_plus
                         on_press: root.press_v3d2on_plus(False)
@@ -656,7 +765,7 @@
                         on_long_press: root.press_v3d3on_min(True)
                     OnTextInput:
                         id: v3d3on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v3d3on_plus
                         on_press: root.press_v3d3on_plus(False)
@@ -673,7 +782,7 @@
                         on_long_press: root.press_v3d4on_min(True)
                     OnTextInput:
                         id: v3d4on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v3d4on_plus
                         on_press: root.press_v3d4on_plus(False)
@@ -734,7 +843,7 @@
                         on_long_press: root.press_v3d1off_min(True)
                     OffTextInput:
                         id: v3d1off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v3d1off_plus
                         on_press: root.press_v3d1off_plus(False)
@@ -751,7 +860,7 @@
                         on_long_press: root.press_v3d2off_min(True)
                     OffTextInput:
                         id: v3d2off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v3d2off_plus
                         on_press: root.press_v3d2off_plus(False)
@@ -768,7 +877,7 @@
                         on_long_press: root.press_v3d3off_min(True)
                     OffTextInput:
                         id: v3d3off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v3d3off_plus
                         on_press: root.press_v3d3off_plus(False)
@@ -785,7 +894,7 @@
                         on_long_press: root.press_v3d4off_min(True)
                     OffTextInput:
                         id: v3d4off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v3d4off_plus
                         on_press: root.press_v3d4off_plus(False)
@@ -842,7 +951,7 @@
                         on_long_press: root.press_v4d1on_min(True)
                     OnTextInput:
                         id: v4d1on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v4d1on_plus
                         on_press: root.press_v4d1on_plus(False)
@@ -859,7 +968,7 @@
                         on_long_press: root.press_v4d2on_min(True)
                     OnTextInput:
                         id: v4d2on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v4d2on_plus
                         on_press: root.press_v4d2on_plus(False)
@@ -876,7 +985,7 @@
                         on_long_press: root.press_v4d3on_min(True)
                     OnTextInput:
                         id: v4d3on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v4d3on_plus
                         on_press: root.press_v4d3on_plus(False)
@@ -893,7 +1002,7 @@
                         on_long_press: root.press_v4d4on_min(True)
                     OnTextInput:
                         id: v4d4on_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v4d4on_plus
                         on_press: root.press_v4d4on_plus(False)
@@ -954,7 +1063,7 @@
                         on_long_press: root.press_v4d1off_min(True)
                     OffTextInput:
                         id: v4d1off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v4d1off_plus
                         on_press: root.press_v4d1off_plus(False)
@@ -971,7 +1080,7 @@
                         on_long_press: root.press_v4d2off_min(True)
                     OffTextInput:
                         id: v4d2off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v4d2off_plus
                         on_press: root.press_v4d2off_plus(False)
@@ -988,7 +1097,7 @@
                         on_long_press: root.press_v4d3off_min(True)
                     OffTextInput:
                         id: v4d3off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v4d3off_plus
                         on_press: root.press_v4d3off_plus(False)
@@ -1005,7 +1114,7 @@
                         on_long_press: root.press_v4d4off_min(True)
                     OffTextInput:
                         id: v4d4off_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: v4d4off_plus
                         on_press: root.press_v4d4off_plus(False)
@@ -1051,7 +1160,7 @@
                     OnTextInput:
                         id: camon_val
                         text: '100'
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: camon_plus
                         on_press: root.press_camon_plus(False)
@@ -1075,7 +1184,7 @@
                     OffTextInput:
                         id: camoff_val
                         text: '1200'
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: camoff_plus
                         on_press: root.press_camoff_plus(False)
@@ -1129,7 +1238,7 @@
                     OnTextInput:
                         id: flashon_val
                         text: '300'
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: flashon_plus
                         on_press: root.press_flashon_plus(False)
@@ -1153,7 +1262,7 @@
                         on_long_press: root.press_flashoff_min(True)
                     OffTextInput:
                         id: flashoff_val
-                        on_focus: root.text_focused()
+                        on_focus: root.text_focused(self, self.focus)
                     PlusButton:
                         id: flashoff_plus
                         on_press: root.press_flashoff_plus(False)
@@ -1241,6 +1350,706 @@
             size_hint_x: None
             FireButton:
                 id: firebutton
+                text: '\u27A4\u27A4'
+                font_name: "DejaVuSans.ttf"
+                font_size: 32
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 height: 60
                 color: (98/255, 134/255, 240/255, 1)
                 background_color: (88/255, 124/255, 255/255, 1)

@@ -55,9 +55,9 @@ def thread_valve_1_function():
     if MIRROR_LOCKUP:
         delayus(700 * 1000)
     for i in range(len(TIMES_VALVE_1)):
-        delayus(int(TIMES_VALVE_1[i][0]) * 1000)
+        delayus(float(TIMES_VALVE_1[i][0]) * 1000)
         relay_on(VALVE_1)
-        delayus(int(TIMES_VALVE_1[i][1]) * 1000)
+        delayus(float(TIMES_VALVE_1[i][1]) * 1000)
         relay_off(VALVE_1)
     v1_elapsed_time = time.perf_counter() - start_time
 
@@ -68,9 +68,9 @@ def thread_valve_2_function():
     if MIRROR_LOCKUP:
         delayus(700 * 1000)
     for i in range(len(TIMES_VALVE_2)):
-        delayus(int(TIMES_VALVE_2[i][0]) * 1000)
+        delayus(float(TIMES_VALVE_2[i][0]) * 1000)
         relay_on(VALVE_2)
-        delayus(int(TIMES_VALVE_2[i][1]) * 1000)
+        delayus(float(TIMES_VALVE_2[i][1]) * 1000)
         relay_off(VALVE_2)
     v2_elapsed_time = time.perf_counter() - start_time
 
@@ -81,9 +81,9 @@ def thread_valve_3_function():
     if MIRROR_LOCKUP:
         delayus(700 * 1000)
     for i in range(len(TIMES_VALVE_3)):
-        delayus(int(TIMES_VALVE_3[i][0]) * 1000)
+        delayus(float(TIMES_VALVE_3[i][0]) * 1000)
         relay_on(VALVE_3)
-        delayus(int(TIMES_VALVE_3[i][1]) * 1000)
+        delayus(float(TIMES_VALVE_3[i][1]) * 1000)
         relay_off(VALVE_3)
     v3_elapsed_time = time.perf_counter() - start_time
 
@@ -94,9 +94,9 @@ def thread_valve_4_function():
     if MIRROR_LOCKUP:
         delayus(700 * 1000)
     for i in range(len(TIMES_VALVE_4)):
-        delayus(int(TIMES_VALVE_4[i][0]) * 1000)
+        delayus(float(TIMES_VALVE_4[i][0]) * 1000)
         relay_on(VALVE_4)
-        delayus(int(TIMES_VALVE_4[i][1]) * 1000)
+        delayus(float(TIMES_VALVE_4[i][1]) * 1000)
         relay_off(VALVE_4)
     v4_elapsed_time = time.perf_counter() - start_time
 
@@ -123,7 +123,7 @@ def thread_flash_function(flash1, flash2, flash3):
     if MIRROR_LOCKUP:
         delayus(700 * 1000)
     # TURN ON
-    delayus(int(TIME_FLASH) * 1000)
+    delayus(float(TIME_FLASH) * 1000)
     if not flash1:
         TMPFLASH_1 = 0
     else:
@@ -166,13 +166,13 @@ def main(**kwargs):
     global c_elapsed_time
     global f_elapsed_time
 
-    DEF_FLASH_DELAY = int(kwargs['flash_def'])
+    DEF_FLASH_DELAY = float(kwargs['flash_def'])
     logging.info("FLASH DELAY: %i", DEF_FLASH_DELAY)
-    DEF_CAMERA_DELAY = int(kwargs['cam_def'])
+    DEF_CAMERA_DELAY = float(kwargs['cam_def'])
     logging.info("CAMERA DELAY: %i", DEF_CAMERA_DELAY)
-    TIME_CAMERA = int(kwargs['cam_on'])
+    TIME_CAMERA = float(kwargs['cam_on'])
     logging.info("CAMERA TIME: %i", TIME_CAMERA)
-    TIME_FLASH = int(kwargs['flash_on'])
+    TIME_FLASH = float(kwargs['flash_on'])
     logging.info("FLASH TIME: %i", TIME_FLASH)
 
     MIRROR_LOCKUP = kwargs['mirror']
@@ -216,8 +216,8 @@ def main(**kwargs):
         if MIRROR_LOCKUP:
             calculated_elapsed_time += 700
         for i in range(len(TIMES_VALVE_1)):
-            calculated_elapsed_time += int(TIMES_VALVE_1[i][0])
-            calculated_elapsed_time += int(TIMES_VALVE_1[i][1])
+            calculated_elapsed_time += float(TIMES_VALVE_1[i][0])
+            calculated_elapsed_time += float(TIMES_VALVE_1[i][1])
         calculated_elapsed_time = calculated_elapsed_time / 1000
         try:
             calculated_error = ((calculated_elapsed_time - v1_elapsed_time) / calculated_elapsed_time) * 100
@@ -234,8 +234,8 @@ def main(**kwargs):
         if MIRROR_LOCKUP:
             calculated_elapsed_time += 700
         for i in range(len(TIMES_VALVE_2)):
-            calculated_elapsed_time += int(TIMES_VALVE_2[i][0])
-            calculated_elapsed_time += int(TIMES_VALVE_2[i][1])
+            calculated_elapsed_time += float(TIMES_VALVE_2[i][0])
+            calculated_elapsed_time += float(TIMES_VALVE_2[i][1])
         calculated_elapsed_time = calculated_elapsed_time / 1000
         try:
             calculated_error = ((calculated_elapsed_time - v2_elapsed_time) / calculated_elapsed_time) * 100
@@ -252,8 +252,8 @@ def main(**kwargs):
         if MIRROR_LOCKUP:
             calculated_elapsed_time += 700
         for i in range(len(TIMES_VALVE_3)):
-            calculated_elapsed_time += int(TIMES_VALVE_3[i][0])
-            calculated_elapsed_time += int(TIMES_VALVE_3[i][1])
+            calculated_elapsed_time += float(TIMES_VALVE_3[i][0])
+            calculated_elapsed_time += float(TIMES_VALVE_3[i][1])
         calculated_elapsed_time = calculated_elapsed_time / 1000
         try:
             calculated_error = ((calculated_elapsed_time - v3_elapsed_time) / calculated_elapsed_time) * 100
@@ -270,8 +270,8 @@ def main(**kwargs):
         if MIRROR_LOCKUP:
             calculated_elapsed_time += 700
         for i in range(len(TIMES_VALVE_4)):
-            calculated_elapsed_time += int(TIMES_VALVE_4[i][0])
-            calculated_elapsed_time += int(TIMES_VALVE_4[i][1])
+            calculated_elapsed_time += float(TIMES_VALVE_4[i][0])
+            calculated_elapsed_time += float(TIMES_VALVE_4[i][1])
         calculated_elapsed_time = calculated_elapsed_time / 1000
         try:
             calculated_error = ((calculated_elapsed_time - v4_elapsed_time) / calculated_elapsed_time) * 100
@@ -287,8 +287,8 @@ def main(**kwargs):
     if c_elapsed_time != 0:
         if MIRROR_LOCKUP:
             calculated_elapsed_time += 700
-        calculated_elapsed_time += int(TIME_CAMERA)
-        calculated_elapsed_time += int(DEF_CAMERA_DELAY)
+        calculated_elapsed_time += float(TIME_CAMERA)
+        calculated_elapsed_time += float(DEF_CAMERA_DELAY)
         calculated_elapsed_time = calculated_elapsed_time / 1000
         try:
             calculated_error = ((calculated_elapsed_time - c_elapsed_time) / calculated_elapsed_time) * 100
@@ -304,8 +304,8 @@ def main(**kwargs):
     if f_elapsed_time != 0:
         if MIRROR_LOCKUP:
             calculated_elapsed_time += 700
-        calculated_elapsed_time += int(TIME_FLASH)
-        calculated_elapsed_time += int(DEF_FLASH_DELAY)
+        calculated_elapsed_time += float(TIME_FLASH)
+        calculated_elapsed_time += float(DEF_FLASH_DELAY)
         calculated_elapsed_time = calculated_elapsed_time / 1000
         try:
             calculated_error = ((calculated_elapsed_time - f_elapsed_time) / calculated_elapsed_time) * 100

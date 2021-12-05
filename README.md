@@ -50,7 +50,19 @@ DropPi requires the following to be installed on your platform:
 - Kivy 2.0+
 - SMBUS2 for Python
 
+May I also suggest you incorporate some kind of backup system on your DropPi? It's a real shame to find out after some months of use that an update ruined your system or that the SD card is unreadable, and all your droplet configurations are gone.
+Personally, I use [RaspiBackup](https://github.com/framps/raspiBackup). I use it to backup my droplet controller, my aviation radio system, my sinkhole.
+
 ## Screenshots
 
-![](Screenshot1.png)
-![](Screenshot2.png)
+![Main screen](Screenshot3.png)
+_Fig.1: the basic screen at startup_
+
+![Main screen2](Screenshot4.png)
+Fig.2: Valves 1 and 3 active, with 1 and 3 drops respectively
+
+![Main screen3](Screenshot6.png)
+Fig.3: Custom numeric touch keypad 
+
+![Files manager](Screenshot2.png)
+Fig.4: The file manager
